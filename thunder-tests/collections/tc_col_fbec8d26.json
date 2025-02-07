@@ -1,0 +1,48 @@
+{
+    "_id": "8c7e609c-f799-489a-9048-9780523a7348",
+    "colName": "相簿",
+    "created": "2025-02-07T08:18:32.859Z",
+    "sortNum": 10000,
+    "folders": [],
+    "requests": [
+        {
+            "_id": "5c22c7f1-9bca-4c00-953f-1f75616eb011",
+            "colId": "8c7e609c-f799-489a-9048-9780523a7348",
+            "containerId": "",
+            "name": "取得",
+            "url": "/albums",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2025-02-07T08:18:40.695Z",
+            "modified": "2025-02-07T08:19:50.990Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136"
+                }
+            ]
+        },
+        {
+            "_id": "aa995883-0584-429f-a71e-695152790a03",
+            "colId": "8c7e609c-f799-489a-9048-9780523a7348",
+            "containerId": "",
+            "name": "取得 by id",
+            "url": "/albums/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2025-02-07T08:20:33.043Z",
+            "modified": "2025-02-07T08:21:50.182Z",
+            "headers": [
+                {
+                    "name": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "options": {
+            "baseUrl": "https://admin-filament-dev.test/api/v1"
+        }
+    }
+}
