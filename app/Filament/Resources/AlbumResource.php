@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AlbumResource\Pages;
+use App\Filament\Resources\AlbumResource\RelationManagers;
 use App\Models\Album;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -13,6 +14,8 @@ use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Repeater;
 
 class AlbumResource extends Resource
 {
@@ -47,7 +50,7 @@ class AlbumResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
-                    ->label('圖片')
+                    ->label('封面圖片')
                     ->image()
                     ->imageEditor()
                     ->directory('albums')
@@ -58,31 +61,54 @@ class AlbumResource extends Resource
                     ->imageResizeTargetHeight('1024')
                     ->saveUploadedFileUsing(function ($file) {
                         $manager = new ImageManager(new Driver());
-
                         $image = $manager->read($file);
-
-                        // 調整圖片大小
                         $image->cover(1024, 1024);
-
-                        // 生成唯一的檔案名
                         $filename = Str::uuid()->toString() . '.webp';
-
-                        // 確保目錄存在
                         if (!file_exists(storage_path('app/public/albums'))) {
                             mkdir(storage_path('app/public/albums'), 0755, true);
                         }
-                        // 轉換並保存為 WebP
                         $image->toWebp(80)->save(storage_path('app/public/albums/' . $filename));
-
                         return 'albums/' . $filename;
                     }),
                 Forms\Components\TextInput::make('content')
                     ->label('描述')
-                    ->maxLength(255)
-                    ->columnSpanFull(),
+                    ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
-                    ->default(true),
+                    ->default(true)
+                    ->inline(false),
+                Forms\Components\Section::make('相簿圖片')
+                    ->schema([
+                        Forms\Components\FileUpload::make('album_images')
+                            ->label('上傳多張圖片')
+                            ->multiple()
+                            ->image()
+                            ->imageEditor()
+                            ->reorderable()
+                            ->directory('album-images')
+                            ->columnSpanFull()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->saveUploadedFileUsing(function ($file) {
+                                $manager = new ImageManager(new Driver());
+                                $image = $manager->read($file);
+                                $image->cover(1024, 1024);
+                                $filename = Str::uuid()->toString() . '.webp';
+                                if (!file_exists(storage_path('app/public/album-images'))) {
+                                    mkdir(storage_path('app/public/album-images'), 0755, true);
+                                }
+                                $image->toWebp(80)->save(storage_path('app/public/album-images/' . $filename));
+                                return 'album-images/' . $filename;
+                            })
+                            ->saveRelationshipsUsing(function ($record, $state) {
+                                foreach ($state as $index => $image) {
+                                    $record->images()->create([
+                                        'image' => $image,
+                                        'sort' => $index
+                                    ]);
+                                }
+                            }),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
@@ -132,7 +158,7 @@ class AlbumResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ImagesRelationManager::class,
         ];
     }
 

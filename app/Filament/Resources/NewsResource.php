@@ -55,10 +55,12 @@ class NewsResource extends Resource
                     ->minHeight(500),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
-                    ->default(true),
+                    ->default(true)
+                    ->inline(false),
                 Forms\Components\Toggle::make('is_new')
                     ->label('最新')
-                    ->default(true),
+                    ->default(true)
+                    ->inline(false),
             ]);
     }
 
