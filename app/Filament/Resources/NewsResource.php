@@ -2,54 +2,43 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
-use App\Models\Post;
+use App\Filament\Resources\NewsResource\Pages;
+use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
-class PostResource extends Resource
+class NewsResource extends Resource
 {
-    protected static ?string $model = Post::class;
+    protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
-    protected static ?string $navigationGroup = '文章管理';
+    protected static ?string $navigationGroup = '網站管理';
 
-    protected static ?string $navigationLabel = '文章列表';
+    protected static ?string $navigationLabel = '最新消息';
 
-    protected static ?string $pluralModelLabel = '文章列表';
+    protected static ?string $pluralModelLabel = '最新消息列表';
 
-    protected static ?string $pluralLabel = '文章列表';
+    protected static ?string $pluralLabel = '最新消息列表';
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增文章';
+    protected static ?string $createButtonLabel = '新增最新消息';
 
-    protected static ?string $editButtonLabel = '編輯文章';
+    protected static ?string $editButtonLabel = '編輯最新消息';
 
-    protected static ?string $deleteButtonLabel = '刪除文章';
+    protected static ?string $deleteButtonLabel = '刪除最新消息';
 
-    protected static ?string $modelLabel = '文章';
-
-    protected static ?int $navigationSort = 2; // 讓文章顯示在分類之後
+    protected static ?string $modelLabel = '最新消息';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('post_category_id')
-                    ->relationship('category', 'name')
-                    ->label('分類')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
                 Forms\Components\TextInput::make('title')
                     ->label('標題')
                     ->required()
@@ -57,7 +46,7 @@ class PostResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('圖片')
                     ->image()
-                    ->directory('posts'),
+                    ->directory('news'),
                 TinyEditor::make('content')
                     ->label('內容')
                     ->columnSpanFull()
@@ -67,6 +56,9 @@ class PostResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
                     ->default(true),
+                Forms\Components\Toggle::make('is_new')
+                    ->label('最新')
+                    ->default(true),
             ]);
     }
 
@@ -74,9 +66,6 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category.name')
-                    ->label('分類')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('標題')
                     ->searchable(),
@@ -84,8 +73,16 @@ class PostResource extends Resource
                     ->label('圖片')
                     ->defaultImageUrl(url('/images/no-image.png'))
                     ->visibility(fn($record) => $record->image !== null),
+                Tables\Columns\TextColumn::make('content')
+                    ->label('內容')
+                    ->limit(50)
+                    ->html(),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('啟用狀態')
+                    ->onColor('success')
+                    ->offColor('danger'),
+                Tables\Columns\ToggleColumn::make('is_new')
+                    ->label('最新')
                     ->onColor('success')
                     ->offColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -98,13 +95,10 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('post_category_id')
-                    ->label('分類')
-                    ->relationship('category', 'name')
-                    ->preload()
-                    ->searchable(),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('啟用狀態'),
+                Tables\Filters\TernaryFilter::make('is_new')
+                    ->label('最新'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -118,15 +112,17 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPosts::route('/'),
-            'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            'index' => Pages\ListNews::route('/'),
+            'create' => Pages\CreateNews::route('/create'),
+            'edit' => Pages\EditNews::route('/{record}/edit'),
         ];
     }
 }

@@ -47,6 +47,7 @@ class PostCategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('分類名稱')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
