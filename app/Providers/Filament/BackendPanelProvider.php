@@ -28,6 +28,7 @@ class BackendPanelProvider extends PanelProvider
             ->id('backend')
             ->path('backend')
             ->login(Login::class)
+            ->favicon(asset('images/admin-favicon.png'))
             ->brandName('管理後台')
             ->colors([
                 'primary' => Color::Amber,
