@@ -2,58 +2,46 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
-use App\Models\Post;
+use App\Filament\Resources\AlbumResource\Pages;
+use App\Models\Album;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
-use Filament\Forms\Components\FileUpload;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
 
-class PostResource extends Resource
+class AlbumResource extends Resource
 {
-    protected static ?string $model = Post::class;
+    protected static ?string $model = Album::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationGroup = '文章管理';
+    protected static ?string $navigationGroup = '網站管理';
 
-    protected static ?string $navigationLabel = '文章列表';
+    protected static ?string $navigationLabel = '相簿管理';
 
-    protected static ?string $pluralModelLabel = '文章列表';
+    protected static ?string $pluralModelLabel = '相簿列表';
 
-    protected static ?string $pluralLabel = '文章列表';
+    protected static ?string $pluralLabel = '相簿列表';
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增文章';
+    protected static ?string $createButtonLabel = '新增相簿';
 
-    protected static ?string $editButtonLabel = '編輯文章';
+    protected static ?string $editButtonLabel = '編輯相簿';
 
-    protected static ?string $deleteButtonLabel = '刪除文章';
+    protected static ?string $deleteButtonLabel = '刪除相簿';
 
-    protected static ?string $modelLabel = '文章';
-
-    protected static ?int $navigationSort = 2; // 讓文章顯示在分類之後
+    protected static ?string $modelLabel = '相簿';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('post_category_id')
-                    ->relationship('category', 'name')
-                    ->label('分類')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
                 Forms\Components\TextInput::make('title')
                     ->label('標題')
                     ->required()
@@ -62,7 +50,7 @@ class PostResource extends Resource
                     ->label('圖片')
                     ->image()
                     ->imageEditor()
-                    ->directory('posts')
+                    ->directory('albums')
                     ->columnSpanFull()
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->imageResizeMode('cover')
@@ -80,20 +68,18 @@ class PostResource extends Resource
                         $filename = Str::uuid()->toString() . '.webp';
 
                         // 確保目錄存在
-                        if (!file_exists(storage_path('app/public/posts'))) {
-                            mkdir(storage_path('app/public/posts'), 0755, true);
+                        if (!file_exists(storage_path('app/public/albums'))) {
+                            mkdir(storage_path('app/public/albums'), 0755, true);
                         }
                         // 轉換並保存為 WebP
-                        $image->toWebp(80)->save(storage_path('app/public/posts/' . $filename));
+                        $image->toWebp(80)->save(storage_path('app/public/albums/' . $filename));
 
-                        return 'posts/' . $filename;
+                        return 'albums/' . $filename;
                     }),
-                TinyEditor::make('content')
-                    ->label('內容')
-                    ->columnSpanFull()
-                    ->required()
-                    ->maxHeight(500)
-                    ->minHeight(500),
+                Forms\Components\TextInput::make('content')
+                    ->label('描述')
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
                     ->default(true),
@@ -104,9 +90,6 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category.name')
-                    ->label('分類')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('標題')
                     ->searchable(),
@@ -114,25 +97,25 @@ class PostResource extends Resource
                     ->label('圖片')
                     ->defaultImageUrl(url('/images/no-image.png'))
                     ->visibility(fn($record) => $record->image !== null),
+                Tables\Columns\TextColumn::make('content')
+                    ->label('描述')
+                    ->limit(50),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('啟用狀態')
                     ->onColor('success')
                     ->offColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('建立時間')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('更新時間')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('post_category_id')
-                    ->label('分類')
-                    ->relationship('category', 'name')
-                    ->preload()
-                    ->searchable(),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('啟用狀態'),
             ])
@@ -148,15 +131,17 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPosts::route('/'),
-            'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            'index' => Pages\ListAlbums::route('/'),
+            'create' => Pages\CreateAlbum::route('/create'),
+            'edit' => Pages\EditAlbum::route('/{record}/edit'),
         ];
     }
 }
