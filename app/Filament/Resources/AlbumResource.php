@@ -92,7 +92,7 @@ class AlbumResource extends Resource
                                 $manager = new ImageManager(new Driver());
                                 $image = $manager->read($file);
                                 $image->cover(1024, 1024);
-                                $filename = Str::uuid()->toString() . '.webp';
+                                $filename = Str::uuid7()->toString() . '.webp';
                                 if (!file_exists(storage_path('app/public/album-images'))) {
                                     mkdir(storage_path('app/public/album-images'), 0755, true);
                                 }

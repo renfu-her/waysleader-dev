@@ -18,7 +18,7 @@ class NewsController extends Controller
                     'id' => $item->id,
                     'title' => $item->title,
                     'content' => $item->content,
-                    'image' => $item->image ? asset('storage/' . $item->image) : null,
+                    'image' => $item->image ? asset('storage/news/' . $item->image) : null,
                     'is_new' => $item->is_new,
                     'created_at' => $item->created_at->format('Y-m-d H:i:s')
                 ];
@@ -41,7 +41,7 @@ class NewsController extends Controller
                 'id' => $news->id,
                 'title' => $news->title,
                 'content' => $news->content,
-                'image' => $news->image ? asset('storage/' . $news->image) : null,
+                'image' => $news->image ? asset('storage/news/' . $news->image) : null,
                 'is_new' => $news->is_new,
                 'created_at' => $news->created_at->format('Y-m-d H:i:s')
             ]

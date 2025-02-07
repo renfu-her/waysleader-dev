@@ -10,6 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Str;
 
 class NewsResource extends Resource
 {
@@ -46,7 +49,24 @@ class NewsResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('圖片')
                     ->image()
-                    ->directory('news'),
+                    ->imageEditor()
+                    ->directory('news')
+                    ->columnSpanFull()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->imageResizeMode('cover')
+                    ->imageResizeTargetWidth('1024')
+                    ->imageResizeTargetHeight('1024')
+                    ->saveUploadedFileUsing(function ($file) {
+                        $manager = new ImageManager(new Driver());
+                        $image = $manager->read($file);
+                        $image->cover(1024, 1024);
+                        $filename = Str::uuid()->toString() . '.webp';
+                        if (!file_exists(storage_path('app/public/news'))) {
+                            mkdir(storage_path('app/public/news'), 0755, true);
+                        }
+                        $image->toWebp(80)->save(storage_path('app/public/news/' . $filename));
+                        return 'news/' . $filename;
+                    }),
                 TinyEditor::make('content')
                     ->label('內容')
                     ->columnSpanFull()
