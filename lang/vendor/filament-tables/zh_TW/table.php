@@ -7,6 +7,7 @@ return [
         'search' => [
             'label' => '搜尋',
             'placeholder' => '搜尋',
+            'indicator' => '篩選結果',
         ],
 
     ],
@@ -32,6 +33,8 @@ return [
     ],
 
     'filters' => [
+
+        'heading' => '篩選',
 
         'actions' => [
 
@@ -60,6 +63,8 @@ return [
             'without_trashed' => '不含已刪除的資料',
 
         ],
+
+        'indicator' => '篩選結果',
 
     ],
 
