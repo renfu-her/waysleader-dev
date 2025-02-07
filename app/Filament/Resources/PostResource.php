@@ -19,15 +19,25 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = '文章管理';
+    protected static ?string $navigationGroup = '文章管理';
 
-    protected static ?string $pluralModelLabel = '文章管理';
+    protected static ?string $navigationLabel = '文章列表';
 
-    protected static ?string $pluralLabel = '文章管理';
+    protected static ?string $pluralModelLabel = '文章列表';
+
+    protected static ?string $pluralLabel = '文章列表';
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    protected static ?string $createButtonLabel = '新增文章';
 
+    protected static ?string $editButtonLabel = '編輯文章';
+
+    protected static ?string $deleteButtonLabel = '刪除文章';
+
+    protected static ?string $modelLabel = '文章';
+
+    protected static ?int $navigationSort = 2; // 讓文章顯示在分類之後
 
     public static function form(Form $form): Form
     {
@@ -35,15 +45,37 @@ class PostResource extends Resource
             ->schema([
                 Forms\Components\Select::make('post_category_id')
                     ->relationship('category', 'name')
+                    ->label('分類')
                     ->searchable()
                     ->preload(),
                 Forms\Components\TextInput::make('title')
+                    ->label('標題')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->label('圖片')
                     ->image()
                     ->directory('posts'),
+                Forms\Components\RichEditor::make('content')
+                    ->label('內容')
+                    ->extraInputAttributes(['style' => 'min-height: 500px'])  // 正確的設置高度方式
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'link',
+                        'orderedList',
+                        'unorderedList',
+                        'h2',
+                        'h3',
+                        'undo',
+                        'redo',
+                        'image',
+                    ])
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_active')
+                    ->label('啟用')
                     ->default(true),
             ]);
     }
@@ -53,12 +85,21 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label('分類')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('標題')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('圖片'),
+                Tables\Columns\TextColumn::make('content')
+                    ->label('內容')
+                    ->limit(50)
+                    ->html(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('啟用狀態')
+                    ->onColor('success')
+                    ->offColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -69,7 +110,13 @@ class PostResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('post_category_id')
+                    ->label('分類')
+                    ->relationship('category', 'name')
+                    ->preload()
+                    ->searchable(),
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('啟用狀態'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -83,9 +130,7 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
