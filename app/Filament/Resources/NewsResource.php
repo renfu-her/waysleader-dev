@@ -95,10 +95,6 @@ class NewsResource extends Resource
                     ->label('圖片')
                     ->defaultImageUrl(url('/images/no-image.png'))
                     ->visibility(fn($record) => $record->image !== null),
-                Tables\Columns\TextColumn::make('content')
-                    ->label('內容')
-                    ->limit(50)
-                    ->html(),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('啟用狀態')
                     ->onColor('success')
