@@ -25,6 +25,7 @@ class ImagesRelationManager extends RelationManager
             ->schema([
                 Forms\Components\FileUpload::make('image')
                     ->label('圖片')
+                    ->multiple()
                     ->image()
                     ->imageEditor()
                     ->directory('album-images')
