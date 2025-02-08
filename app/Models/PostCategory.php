@@ -14,4 +14,9 @@ class PostCategory extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

@@ -81,12 +81,22 @@ class PostController extends Controller
         ]);
     }
 
-    public function index(PostCategory $postCategory)
+    public function index($categoryId)
     {
-        // Laravel 會自動進行路由模型綁定
+        $posts = Post::where('post_category_id', $categoryId)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title
+                ];
+            });
 
-        $posts = $postCategory->posts;
-
-        return response()->json($posts);
+        return response()->json([
+            'status' => 'success',
+            'data' => $posts
+        ]);
     }
 }

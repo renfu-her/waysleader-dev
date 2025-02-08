@@ -17,6 +17,6 @@ Route::prefix('v1')->group(function () {
 
     // 文章分類和文章
     Route::get('categories', [PostController::class, 'categories']);
-    Route::get('/categories/{category}/posts', [PostController::class, 'index']);
+    Route::get('/categories/{categoryId}', [PostController::class, 'index']);
     Route::get('posts/{id}', [PostController::class, 'show']);
 });
