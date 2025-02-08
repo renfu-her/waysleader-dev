@@ -100,10 +100,14 @@ class AlbumResource extends Resource
                                 return 'album-images/' . $filename;
                             })
                             ->saveRelationshipsUsing(function ($record, $state) {
+                                // 先刪除現有的圖片關聯
+                                $record->images()->delete();
+
+                                // 重新建立圖片關聯，使用索引+1作為排序值
                                 foreach ($state as $index => $image) {
                                     $record->images()->create([
                                         'image' => $image,
-                                        'sort' => $index
+                                        'sort' => $index + 1  // 從1開始的排序
                                     ]);
                                 }
                             }),
