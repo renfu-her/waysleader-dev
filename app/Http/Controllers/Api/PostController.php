@@ -83,20 +83,24 @@ class PostController extends Controller
 
     public function index($categoryId)
     {
-        $posts = Post::where('post_category_id', $categoryId)
-            ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($post) {
-                return [
-                    'id' => $post->id,
-                    'title' => $post->title
-                ];
-            });
+        $category = PostCategory::findOrFail($categoryId);
 
         return response()->json([
             'status' => 'success',
-            'data' => $posts
+            'data' => [
+                'id' => $category->id,
+                'name' => $category->name,
+                'posts' => $category->posts()
+                    ->where('is_active', true)
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->map(function ($post) {
+                        return [
+                            'id' => $post->id,
+                            'title' => $post->title
+                        ];
+                    })
+            ]
         ]);
     }
 }
