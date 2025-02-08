@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
     public function categories()
@@ -78,5 +79,14 @@ class PostController extends Controller
                 'created_at' => $post->created_at->format('Y-m-d H:i:s')
             ]
         ]);
+    }
+
+    public function index(PostCategory $postCategory)
+    {
+        // Laravel 會自動進行路由模型綁定
+
+        $posts = $postCategory->posts;
+
+        return response()->json($posts);
     }
 }
