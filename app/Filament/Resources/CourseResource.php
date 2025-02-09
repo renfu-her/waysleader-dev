@@ -15,6 +15,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class CourseResource extends Resource
 {
@@ -71,10 +72,12 @@ class CourseResource extends Resource
                                 return 'course-main-images/' . $filename;
                             }),
 
-                        Forms\Components\RichEditor::make('content')
+                        TinyEditor::make('content')
                             ->label('內容')
+                            ->columnSpanFull()
                             ->required()
-                            ->columnSpanFull(),
+                            ->maxHeight(500)
+                            ->minHeight(500),
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('啟用')
