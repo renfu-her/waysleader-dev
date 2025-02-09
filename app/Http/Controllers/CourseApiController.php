@@ -10,7 +10,7 @@ class CourseApiController extends Controller
     // 課程列表
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 15);
+        $perPage = $request->input('per_page', 20);
 
         $courses = Course::query()
             ->with('images')
