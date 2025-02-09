@@ -89,26 +89,14 @@ class PostController extends Controller
         ]);
     }
 
-    public function index($categoryId)
+    private function transformPost($post)
     {
-        $category = PostCategory::findOrFail($categoryId);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'id' => $category->id,
-                'name' => $category->name,
-                'posts' => $category->posts()
-                    ->where('is_active', true)
-                    ->orderBy('created_at', 'desc')
-                    ->get()
-                    ->map(function ($post) {
-                        return [
-                            'id' => $post->id,
-                            'title' => $post->title
-                        ];
-                    })
-            ]
-        ]);
+        return [
+            'id' => $post->id,
+            'title' => $post->title,
+            'excerpt' => $post->excerpt,
+            'image_url' => $post->image_url,
+            'created_at' => $post->created_at->format('Y-m-d H:i:s')
+        ];
     }
 }
