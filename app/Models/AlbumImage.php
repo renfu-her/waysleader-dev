@@ -13,8 +13,13 @@ class AlbumImage extends Model
         'sort'
     ];
 
+    protected $casts = [
+        'sort' => 'integer'
+    ];
+
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);
     }
+
 }

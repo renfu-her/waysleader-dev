@@ -16,6 +16,8 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Repeater;
+use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\FileUpload;
 
 class AlbumResource extends Resource
 {
@@ -55,24 +57,32 @@ class AlbumResource extends Resource
                     ->imageEditor()
                     ->directory('albums')
                     ->columnSpanFull()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('1024')
-                    ->imageResizeTargetHeight('1024')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn($file): string => (string) str(Str::uuid7() . '.webp')
+                    )
                     ->saveUploadedFileUsing(function ($file) {
                         $manager = new ImageManager(new Driver());
                         $image = $manager->read($file);
                         $image->cover(1024, 1024);
-                        $filename = Str::uuid()->toString() . '.webp';
+                        $filename = Str::uuid7()->toString() . '.webp';
+
                         if (!file_exists(storage_path('app/public/albums'))) {
                             mkdir(storage_path('app/public/albums'), 0755, true);
                         }
+
                         $image->toWebp(80)->save(storage_path('app/public/albums/' . $filename));
-                        return $filename;
+                        return 'albums/' . $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file) {
+                        if ($file) {
+                            Storage::disk('public')->delete($file);
+                        }
                     }),
                 Forms\Components\TextInput::make('content')
                     ->label('描述')
-
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
@@ -87,30 +97,59 @@ class AlbumResource extends Resource
                             ->imageEditor()
                             ->reorderable()
                             ->directory('album-images')
+
                             ->columnSpanFull()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->downloadable()
+                            ->openable()
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => (string) str(Str::uuid7() . '.webp')
+                            )
                             ->saveUploadedFileUsing(function ($file) {
                                 $manager = new ImageManager(new Driver());
                                 $image = $manager->read($file);
                                 $image->cover(1024, 1024);
                                 $filename = Str::uuid7()->toString() . '.webp';
+
                                 if (!file_exists(storage_path('app/public/album-images'))) {
                                     mkdir(storage_path('app/public/album-images'), 0755, true);
                                 }
+
                                 $image->toWebp(80)->save(storage_path('app/public/album-images/' . $filename));
                                 return 'album-images/' . $filename;
                             })
-                            ->saveRelationshipsUsing(function ($record, $state) {
-                                // 先刪除現有的圖片關聯
-                                $record->images()->delete();
-
-                                // 重新建立圖片關聯，使用索引+1作為排序值
-                                foreach ($state as $index => $image) {
-                                    $record->images()->create([
-                                        'image' => $image,
-                                        'sort' => $index + 1  // 從1開始的排序
-                                    ]);
+                            ->deleteUploadedFileUsing(function ($file) {
+                                if ($file) {
+                                    Storage::disk('public')->delete($file);
                                 }
+                            })
+                            ->saveRelationshipsUsing(function ($record, $state) {
+                                // 獲取現有圖片
+                                $existingImages = $record->images()->pluck('image')->toArray();
+
+                                // 找出需要刪除的舊圖片
+                                $removedImages = array_diff($existingImages, $state ?? []);
+                                foreach ($removedImages as $image) {
+                                    Storage::disk('public')->delete($image);
+                                }
+
+                                // 刪除資料庫中不存在的關聯
+                                $record->images()->whereNotIn('image', $state ?? [])->delete();
+
+                                // 新增或更新現有關聯
+                                collect($state ?? [])->each(function ($image, $index) use ($record) {
+                                    $record->images()->updateOrCreate(
+                                        ['image' => $image],
+                                    );
+                                });
+                            })
+                            ->loadStateFromRelationshipsUsing(function (FileUpload $component, $record) {
+                                $component->state(
+                                    $record->images()
+                                        ->orderBy('sort')
+                                        ->pluck('image')
+                                        ->toArray()
+                                );
                             }),
                     ])
                     ->collapsible(),
@@ -163,7 +202,7 @@ class AlbumResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ImagesRelationManager::class,
+            // RelationManagers\ImagesRelationManager::class,
         ];
     }
 

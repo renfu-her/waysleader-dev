@@ -19,27 +19,28 @@ class ImagesRelationManager extends RelationManager
 
     protected static ?string $title = '相簿圖片';
 
+    protected static ?string $modelLabel = '相簿圖片';
+
     public function form(Form $form): Form
+
     {
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('image')
-                    ->label('圖片')
+                    ->label('上傳多張圖片')
                     ->multiple()
                     ->image()
                     ->imageEditor()
+                    ->reorderable()
                     ->directory('album-images')
                     ->columnSpanFull()
                     ->acceptedFileTypes(['image/jpeg', 'image/png'])
-                    ->imageResizeMode('cover')
-
-                    ->imageResizeTargetWidth('1024')
-                    ->imageResizeTargetHeight('1024')
                     ->saveUploadedFileUsing(function ($file) {
                         $manager = new ImageManager(new Driver());
                         $image = $manager->read($file);
+
                         $image->cover(1024, 1024);
-                        $filename = Str::uuid()->toString() . '.webp';
+                        $filename = Str::uuid7()->toString() . '.webp';
                         if (!file_exists(storage_path('app/public/album-images'))) {
                             mkdir(storage_path('app/public/album-images'), 0755, true);
                         }

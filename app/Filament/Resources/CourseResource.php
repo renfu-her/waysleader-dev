@@ -65,10 +65,30 @@ class CourseResource extends Resource
                             ->imageEditor()
                             ->directory('course-main-images')
                             ->columnSpanFull()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->downloadable()
+                            ->openable()
                             ->getUploadedFileNameForStorageUsing(
                                 fn($file): string => (string) str(Str::uuid7() . '.webp')
-                            ),
+                            )
+                            ->saveUploadedFileUsing(function ($file) {
+                                $manager = new ImageManager(new Driver());
+                                $image = $manager->read($file);
+                                $image->cover(1024, 1024);
+                                $filename = Str::uuid7()->toString() . '.webp';
+
+                                if (!file_exists(storage_path('app/public/courses'))) {
+                                    mkdir(storage_path('app/public/courses'), 0755, true);
+                                }
+                                $image->toWebp(80)->save(storage_path('app/public/courses/' . $filename));
+                                return 'courses/' . $filename;
+                            })
+
+                            ->deleteUploadedFileUsing(function ($file) {
+                                if ($file) {
+                                    Storage::disk('public')->delete($file);
+                                }
+                            }),
 
                         TinyEditor::make('content')
                             ->label('內容')
@@ -88,28 +108,65 @@ class CourseResource extends Resource
 
                 Forms\Components\Section::make('課程圖片')
                     ->schema([
-                        Forms\Components\FileUpload::make('image')
-                            ->label('封面圖片')
+                        Forms\Components\FileUpload::make('course_images')
+                            ->label('上傳多張圖片')
+                            ->multiple()
                             ->image()
                             ->imageEditor()
-                            ->directory('albums')
+                            ->reorderable()
+                            ->directory('course-images')
                             ->columnSpanFull()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
-                            ->imageResizeMode('cover')
-                            ->imageResizeTargetWidth('1024')
-                            ->imageResizeTargetHeight('1024')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->downloadable()
+                            ->openable()
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => (string) str(Str::uuid7() . '.webp')
+                            )
                             ->saveUploadedFileUsing(function ($file) {
                                 $manager = new ImageManager(new Driver());
                                 $image = $manager->read($file);
                                 $image->cover(1024, 1024);
-                                $filename = Str::uuid()->toString() . '.webp';
+                                $filename = Str::uuid7()->toString() . '.webp';
+
                                 if (!file_exists(storage_path('app/public/course-images'))) {
                                     mkdir(storage_path('app/public/course-images'), 0755, true);
                                 }
 
                                 $image->toWebp(80)->save(storage_path('app/public/course-images/' . $filename));
-                                return $filename;
+                                return 'course-images/' . $filename;
+                            })
+                            ->deleteUploadedFileUsing(function ($file) {
+                                if ($file) {
+                                    Storage::disk('public')->delete($file);
+                                }
+                            })
+                            ->saveRelationshipsUsing(function ($record, $state) {
+                                // 獲取現有圖片
+                                $existingImages = $record->images()->pluck('image')->toArray();
 
+                                // 找出需要刪除的舊圖片
+                                $removedImages = array_diff($existingImages, $state ?? []);
+                                foreach ($removedImages as $image) {
+                                    Storage::disk('public')->delete($image);
+                                }
+
+                                // 刪除資料庫中不存在的關聯
+                                $record->images()->whereNotIn('image', $state ?? [])->delete();
+
+                                // 新增或更新現有關聯
+                                collect($state ?? [])->each(function ($image, $index) use ($record) {
+                                    $record->images()->updateOrCreate(
+                                        ['image' => $image],
+                                    );
+                                });
+                            })
+                            ->loadStateFromRelationshipsUsing(function (FileUpload $component, $record) {
+                                $component->state(
+                                    $record->images()
+                                        ->orderBy('sort')
+                                        ->pluck('image')
+                                        ->toArray()
+                                );
                             }),
                     ])
                     ->collapsible(),

@@ -17,6 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostResource extends Resource
 {
@@ -64,29 +65,29 @@ class PostResource extends Resource
                     ->imageEditor()
                     ->directory('posts')
                     ->columnSpanFull()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('1024')
-                    ->imageResizeTargetHeight('1024')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->downloadable()
+                    ->openable()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn($file): string => (string) str(Str::uuid7() . '.webp')
+                    )
                     ->saveUploadedFileUsing(function ($file) {
                         $manager = new ImageManager(new Driver());
-
                         $image = $manager->read($file);
-
-                        // 調整圖片大小
                         $image->cover(1024, 1024);
+                        $filename = Str::uuid7()->toString() . '.webp';
 
-                        // 生成唯一的檔案名
-                        $filename = Str::uuid()->toString() . '.webp';
-
-                        // 確保目錄存在
                         if (!file_exists(storage_path('app/public/posts'))) {
                             mkdir(storage_path('app/public/posts'), 0755, true);
                         }
-                        // 轉換並保存為 WebP
-                        $image->toWebp(80)->save(storage_path('app/public/posts/' . $filename));
 
-                        return $filename;
+                        $image->toWebp(80)->save(storage_path('app/public/posts/' . $filename));
+                        return 'posts/' . $filename;
+                    })
+                    ->deleteUploadedFileUsing(function ($file) {
+                        if ($file) {
+                            Storage::disk('public')->delete($file);
+                        }
                     }),
                 TinyEditor::make('content')
                     ->label('內容')
