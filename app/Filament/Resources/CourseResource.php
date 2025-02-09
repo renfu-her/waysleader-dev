@@ -53,9 +53,11 @@ class CourseResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\TextInput::make('subtitle')
+                        Forms\Components\Textarea::make('subtitle')
                             ->label('次標題')
-                            ->maxLength(255),
+                            ->rows(3)
+                            ->maxLength(255)
+                            ->columnSpanFull(),
 
                         Forms\Components\FileUpload::make('image')
                             ->label('主要圖片')
@@ -63,23 +65,15 @@ class CourseResource extends Resource
                             ->imageEditor()
                             ->directory('course-main-images')
                             ->columnSpanFull()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->saveUploadedFileUsing(function ($file) {
-                                $manager = new ImageManager(new Driver());
-                                $image = $manager->read($file);
-                                $image->cover(1024, 1024);
-                                $filename = Str::uuid7()->toString() . '.webp';
-                                if (!file_exists(storage_path('app/public/course-main-images'))) {
-                                    mkdir(storage_path('app/public/course-main-images'), 0755, true);
-                                }
-                                $image->toWebp(80)->save(storage_path('app/public/course-main-images/' . $filename));
-                                return 'course-main-images/' . $filename;
-                            }),
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => (string) str(Str::uuid7() . '.webp')
+                            ),
 
                         TinyEditor::make('content')
                             ->label('內容')
-                            ->columnSpanFull()
                             ->required()
+                            ->columnSpanFull()
                             ->maxHeight(500)
                             ->minHeight(500),
 
@@ -94,60 +88,28 @@ class CourseResource extends Resource
 
                 Forms\Components\Section::make('課程圖片')
                     ->schema([
-                        Forms\Components\FileUpload::make('course_images')
-                            ->label('上傳多張圖片')
-                            ->multiple()
+                        Forms\Components\FileUpload::make('image')
+                            ->label('封面圖片')
                             ->image()
                             ->imageEditor()
-                            ->reorderable()
-                            ->directory('course-images')
+                            ->directory('albums')
                             ->columnSpanFull()
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->downloadable()
-                            ->openable()
-                            ->getUploadedFileNameForStorageUsing(
-                                fn($file): string => (string) str(Str::uuid7()->toString() . '.webp')
-                            )
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('1024')
+                            ->imageResizeTargetHeight('1024')
                             ->saveUploadedFileUsing(function ($file) {
                                 $manager = new ImageManager(new Driver());
                                 $image = $manager->read($file);
                                 $image->cover(1024, 1024);
-                                $filename = Str::uuid7()->toString() . '.webp';
-
+                                $filename = Str::uuid()->toString() . '.webp';
                                 if (!file_exists(storage_path('app/public/course-images'))) {
                                     mkdir(storage_path('app/public/course-images'), 0755, true);
                                 }
 
                                 $image->toWebp(80)->save(storage_path('app/public/course-images/' . $filename));
-                                return 'course-images/' . $filename;
-                            })
-                            ->deleteUploadedFileUsing(function ($file) {
-                                Storage::disk('public')->delete($file);
-                            })
-                            ->saveRelationshipsUsing(function ($record, $state) {
-                                // 刪除現有圖片關聯
-                                $record->images()->delete();
+                                return $filename;
 
-                                // 如果有新的圖片，建立新的關聯
-                                if ($state) {
-                                    foreach ($state as $index => $image) {
-                                        $record->images()->create([
-                                            'image' => $image,
-                                            'sort' => $index + 1
-                                        ]);
-                                    }
-                                }
-                            })
-                            ->dehydrated(fn($state) => filled($state))
-                            ->visible(fn($record) => $record === null || $record->exists)
-                            ->loadStateFromRelationshipsUsing(function (FileUpload $component, $record) {
-                                // 載入現有圖片
-                                $component->state(
-                                    $record->images()
-                                        ->orderBy('sort')
-                                        ->pluck('image')
-                                        ->toArray()
-                                );
                             }),
                     ])
                     ->collapsible(),
@@ -168,7 +130,9 @@ class CourseResource extends Resource
 
                 Tables\Columns\TextColumn::make('subtitle')
                     ->label('次標題')
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap()
+                    ->html(),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('啟用')

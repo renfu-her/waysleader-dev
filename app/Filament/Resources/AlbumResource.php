@@ -55,7 +55,7 @@ class AlbumResource extends Resource
                     ->imageEditor()
                     ->directory('albums')
                     ->columnSpanFull()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
                     ->imageResizeMode('cover')
                     ->imageResizeTargetWidth('1024')
                     ->imageResizeTargetHeight('1024')
@@ -68,10 +68,11 @@ class AlbumResource extends Resource
                             mkdir(storage_path('app/public/albums'), 0755, true);
                         }
                         $image->toWebp(80)->save(storage_path('app/public/albums/' . $filename));
-                        return 'albums/' . $filename;
+                        return $filename;
                     }),
                 Forms\Components\TextInput::make('content')
                     ->label('描述')
+
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')

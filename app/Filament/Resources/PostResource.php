@@ -64,7 +64,7 @@ class PostResource extends Resource
                     ->imageEditor()
                     ->directory('posts')
                     ->columnSpanFull()
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
                     ->imageResizeMode('cover')
                     ->imageResizeTargetWidth('1024')
                     ->imageResizeTargetHeight('1024')
@@ -86,7 +86,7 @@ class PostResource extends Resource
                         // 轉換並保存為 WebP
                         $image->toWebp(80)->save(storage_path('app/public/posts/' . $filename));
 
-                        return 'posts/' . $filename;
+                        return $filename;
                     }),
                 TinyEditor::make('content')
                     ->label('內容')
