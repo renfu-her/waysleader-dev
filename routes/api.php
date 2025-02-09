@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AlbumController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\CourseApiController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -19,4 +20,10 @@ Route::prefix('v1')->group(function () {
     Route::get('categories', [PostController::class, 'categories'])->name('categories.index');
     Route::get('/categories/{categoryId}', [PostController::class, 'index'])->name('categories.show');
     Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
+    // 課程列表 API
+    Route::get('/courses', [CourseApiController::class, 'index']);
+
+    // 單個課程詳情 API
+    Route::get('/courses/{course}', [CourseApiController::class, 'show']);
 });
