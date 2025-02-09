@@ -6,77 +6,85 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class PostController extends Controller
 {
     public function categories()
     {
-        $categories = PostCategory::with(['posts' => function ($query) {
+        $categories = PostCategory::withCount(['posts' => function ($query) {
             $query->where('is_active', true);
         }])
+            ->orderBy('sort')
             ->get()
             ->map(function ($category) {
                 return [
                     'id' => $category->id,
                     'name' => $category->name,
-                    'posts_count' => $category->posts->count()
+                    'posts_count' => $category->posts_count,
+                    'created_at' => $category->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
         return response()->json([
-            'status' => 'success',
-            'data' => $categories
+            'data' => $categories,
+            'meta' => [
+                'total' => $categories->count()
+            ]
         ]);
     }
 
-    public function categoryPosts($categoryId)
+    public function categoryPosts(PostCategory $category)
     {
-        $category = PostCategory::findOrFail($categoryId);
-
-        $posts = Post::where('post_category_id', $categoryId)
+        $posts = $category->posts()
             ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($post) {
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->through(function ($post) {
                 return [
                     'id' => $post->id,
                     'title' => $post->title,
-                    'content' => $post->content,
-                    'image' => $post->image ? asset('storage/' . $post->image) : null,
-                    'category_id' => $post->post_category_id,
-                    'category_name' => $post->category->name,
+                    'excerpt' => Str::limit(strip_tags($post->content), 100),
+                    'image_url' => $post->image_url,
                     'created_at' => $post->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
         return response()->json([
-            'status' => 'success',
             'data' => [
                 'category' => [
                     'id' => $category->id,
                     'name' => $category->name
                 ],
-                'posts' => $posts
+                'posts' => $posts->items()
+            ],
+            'meta' => [
+                'current_page' => $posts->currentPage(),
+                'total' => $posts->total(),
+                'per_page' => $posts->perPage(),
             ]
         ]);
     }
 
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::where('is_active', true)
-            ->findOrFail($id);
+        if (!$post->is_active) {
+            abort(404);
+        }
 
         return response()->json([
-            'status' => 'success',
             'data' => [
                 'id' => $post->id,
                 'title' => $post->title,
                 'content' => $post->content,
-                'image' => $post->image ? asset('storage/' . $post->image) : null,
-                'category_id' => $post->post_category_id,
-                'category_name' => $post->category->name,
-                'created_at' => $post->created_at->format('Y-m-d H:i:s')
+                'image_url' => $post->image_url,
+                'category' => [
+                    'id' => $post->post_category_id,
+                    'name' => $post->category->name
+                ],
+                'created_at' => $post->created_at->format('Y-m-d H:i:s'),
+                'updated_at' => $post->updated_at->format('Y-m-d H:i:s')
             ]
         ]);
     }

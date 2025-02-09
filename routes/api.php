@@ -16,10 +16,14 @@ Route::prefix('v1')->group(function () {
     Route::get('news', [NewsController::class, 'index'])->name('news.index');
     Route::get('news/{id}', [NewsController::class, 'show'])->name('news.show');
 
-    // 文章分類和文章
-    Route::get('categories', [PostController::class, 'categories'])->name('categories.index');
-    Route::get('/categories/{categoryId}', [PostController::class, 'index'])->name('categories.show');
-    Route::get('posts/{id}', [PostController::class, 'show'])->name('posts.show');
+    // 文章分類
+    Route::get('post-categories', [PostController::class, 'categories'])->name('post-categories.index');
+
+    // 分類下的文章列表
+    Route::get('post-categories/{category}/posts', [PostController::class, 'categoryPosts'])->name('post-categories.posts');
+
+    // 單篇文章詳情
+    Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
     // 課程列表 API
     Route::get('/courses', [CourseApiController::class, 'index']);
