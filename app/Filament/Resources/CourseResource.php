@@ -53,6 +53,10 @@ class CourseResource extends Resource
                             ->required()
                             ->maxLength(255),
 
+                        Forms\Components\TextInput::make('subtitle')
+                            ->label('次標題')
+                            ->maxLength(255),
+
                         Forms\Components\FileUpload::make('image')
                             ->label('主要圖片')
                             ->image()
@@ -160,6 +164,10 @@ class CourseResource extends Resource
 
                 Tables\Columns\TextColumn::make('title')
                     ->label('標題')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('subtitle')
+                    ->label('次標題')
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('is_active')
