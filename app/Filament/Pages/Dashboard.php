@@ -9,19 +9,32 @@ use App\Filament\Resources\PostResource;
 
 class Dashboard extends BaseDashboard
 {
-    protected static string $routePath = 'posts';
+    protected static ?string $navigationLabel = '主頁';
 
-    protected static ?string $navigationLabel = '文章管理';
-
-    protected static ?string $title = '文章管理';
+    protected static ?string $title = '主頁';
 
     public function mount(): void
     {
-        $this->redirect(PostResource::getUrl());
+        redirect('/backend/posts');
     }
 
     public function getTitle(): string|Htmlable
     {
-        return '文章管理';
+        return '主頁';
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [];
     }
 }
