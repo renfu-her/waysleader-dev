@@ -124,24 +124,33 @@ class AlbumResource extends Resource
                                 }
                             })
                             ->saveRelationshipsUsing(function ($record, $state) {
+                                // 強制轉換為數組並過濾無效值
+                                $state = is_array($state) ? array_filter($state) : [];
+
                                 // 獲取現有圖片
                                 $existingImages = $record->images()->pluck('image')->toArray();
 
                                 // 找出需要刪除的舊圖片
-                                $removedImages = array_diff($existingImages, $state ?? []);
+                                $removedImages = array_diff($existingImages, $state);
                                 foreach ($removedImages as $image) {
                                     Storage::disk('public')->delete($image);
                                 }
 
                                 // 刪除資料庫中不存在的關聯
-                                $record->images()->whereNotIn('image', $state ?? [])->delete();
+                                $record->images()->whereNotIn('image', $state)->delete();
 
-                                // 新增或更新現有關聯
-                                collect($state ?? [])->each(function ($image, $index) use ($record) {
-                                    $record->images()->updateOrCreate(
-                                        ['image' => $image],
-                                    );
-                                });
+                                // 新增或更新現有關聯並更新排序
+                                collect($state ?? [])
+                                    ->each(function ($image, $index) use ($record) {
+                                        // 強制類型轉換
+                                        $index = (int)$index;
+                                        $sortValue = $index + 1;
+
+                                        $record->images()->updateOrCreate(
+                                            ['image' => (string)$image],  // 明確轉換為字符串
+                                            ['sort' => (int)$sortValue]   // 明確轉換為整數
+                                        );
+                                    });
                             })
                             ->loadStateFromRelationshipsUsing(function (FileUpload $component, $record) {
                                 $component->state(

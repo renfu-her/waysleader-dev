@@ -153,12 +153,18 @@ class CourseResource extends Resource
                                 // 刪除資料庫中不存在的關聯
                                 $record->images()->whereNotIn('image', $state ?? [])->delete();
 
-                                // 新增或更新現有關聯
-                                collect($state ?? [])->each(function ($image, $index) use ($record) {
-                                    $record->images()->updateOrCreate(
-                                        ['image' => $image],
-                                    );
-                                });
+                                // 新增或更新現有關聯並更新排序
+                                collect($state ?? [])
+                                    ->each(function ($image, $index) use ($record) {
+                                        // 強制類型轉換
+                                        $index = (int)$index;
+                                        $sortValue = $index + 1;
+
+                                        $record->images()->updateOrCreate(
+                                            ['image' => (string)$image],  // 明確轉換為字符串
+                                            ['sort' => (int)$sortValue]   // 明確轉換為整數
+                                        );
+                                    });
                             })
                             ->loadStateFromRelationshipsUsing(function (FileUpload $component, $record) {
                                 $component->state(
