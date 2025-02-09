@@ -9,6 +9,7 @@ class Course extends Model
 {
     protected $fillable = [
         'title',
+        'image',
         'content',
         'is_active',
         'is_new'

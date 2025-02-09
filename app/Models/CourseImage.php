@@ -13,6 +13,10 @@ class CourseImage extends Model
         'sort'
     ];
 
+    protected $casts = [
+        'sort' => 'integer'
+    ];
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
