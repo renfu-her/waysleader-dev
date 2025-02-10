@@ -22,7 +22,6 @@ class PostController extends Controller
                 return [
                     'id' => $category->id,
                     'name' => $category->name,
-                    'posts_count' => $category->posts_count,
                     'created_at' => $category->created_at->format('Y-m-d H:i:s')
                 ];
             });
@@ -45,8 +44,6 @@ class PostController extends Controller
                 return [
                     'id' => $post->id,
                     'title' => $post->title,
-                    'excerpt' => $post->content,
-                    'image_url' => $post->image_url,
                     'created_at' => $post->created_at->format('Y-m-d H:i:s')
                 ];
             });
@@ -84,14 +81,4 @@ class PostController extends Controller
         ]);
     }
 
-    private function transformPost($post)
-    {
-        return [
-            'id' => $post->id,
-            'title' => $post->title,
-            'excerpt' => $post->excerpt,
-            'image_url' => $post->image_url,
-            'created_at' => $post->created_at->format('Y-m-d H:i:s')
-        ];
-    }
 }
