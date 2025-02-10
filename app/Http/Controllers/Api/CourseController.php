@@ -25,9 +25,12 @@ class CourseController extends Controller
 
                         'id' => $course->id,
                         'title' => $course->title,
+                        'image_url' => $course->image_url,
+                        'is_new' => $course->is_new,
                         'created_at' => $course->created_at->format('Y-m-d H:i:s'),
                     ];
                 });
+
 
             return response()->json([
                 'status' => 'success',
