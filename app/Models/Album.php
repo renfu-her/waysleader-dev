@@ -11,7 +11,10 @@ class Album extends Model
         'title',
         'image',
         'content',
-        'is_active'
+        'is_active',
+        'meta_title',
+        'meta_description',
+        'meta_keywords'
     ];
 
     public function images(): HasMany
