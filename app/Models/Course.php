@@ -33,16 +33,8 @@ class Course extends Model
 
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
-            return null;
-        }
-
-        // 檢查是否已經是完整 URL
-        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
-            return $this->image;
-        }
-
-        // 生成正確的儲存路徑
-        return asset(Storage::url($this->image));
+        return $this->image ? asset(Storage::url($this->image)) : null;
     }
+
+
 }
