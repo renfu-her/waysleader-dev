@@ -70,11 +70,6 @@ class PostCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('posts_count')
                     ->label('文章數量')
                     ->counts('posts'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('建立時間')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

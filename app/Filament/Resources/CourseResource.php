@@ -152,15 +152,15 @@ class CourseResource extends Resource
 
                 ToggleColumn::make('is_active')
                     ->label('啟用')
-                    ->onIcon('heroicon-o-check-circle')
-                    ->offIcon('heroicon-o-x-circle')
+                    ->onColor('success')
+                    ->offColor('danger')
                     ->action(function ($record, $state) {
                         $record->update(['is_active' => $state]);
                     }),
                 ToggleColumn::make('is_new')
                     ->label('新課程')
-                    ->onIcon('heroicon-o-check-circle')
-                    ->offIcon('heroicon-o-x-circle')
+                    ->onColor('success')
+                    ->offColor('danger')
                     ->action(function ($record, $state) {
                         $record->update(['is_new' => $state]);
                     }),
