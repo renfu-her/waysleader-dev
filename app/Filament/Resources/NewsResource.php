@@ -91,6 +91,24 @@ class NewsResource extends Resource
                     ->label('最新')
                     ->default(true)
                     ->inline(false),
+
+                Forms\Components\Section::make('SEO 設定')
+                    ->schema([
+                        Forms\Components\TextInput::make('meta_title')
+                            ->label('SEO 標題')
+                            ->maxLength(255),
+
+                        Forms\Components\Textarea::make('meta_description')
+                            ->label('SEO 描述')
+                            ->rows(3)
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('meta_keywords')
+                            ->label('SEO 關鍵字')
+                            ->maxLength(255)
+                            ->placeholder('關鍵字之間請用逗號分隔'),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
