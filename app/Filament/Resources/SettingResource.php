@@ -13,6 +13,8 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    
+    protected static ?string $navigationGroup = '系統設定';
     protected static ?string $navigationLabel = '網站設定';
     protected static ?string $modelLabel = '網站設定';
     // 僅用單一筆記錄，故不需列表頁與新增功能

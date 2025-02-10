@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\CourseApiController;
 use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\SettingController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -31,4 +32,8 @@ Route::prefix('v1')->group(function () {
 
     // 單個課程詳情 API
     Route::get('/courses/{id}', [CourseController::class, 'show']);
+
+    // 網站設定 API
+    Route::get('/setting', [SettingController::class, 'index']);
 });
+
