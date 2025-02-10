@@ -14,8 +14,12 @@ class Post extends Model
         'image',
         'content',
         'is_active',
-        'post_category_id'
+        'post_category_id',
+        'meta_title',
+        'meta_description',
+        'meta_keywords'
     ];
+
 
     public function category(): BelongsTo
     {
