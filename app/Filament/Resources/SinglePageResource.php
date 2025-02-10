@@ -77,6 +77,15 @@ class SinglePageResource extends Resource
                     ->required()
                     ->maxHeight(500)
                     ->minHeight(500),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('啟用')
+                    ->default(true)
+                    ->inline(false),
+                Forms\Components\TextInput::make('sort')
+                    ->label('排序')
+                    ->numeric()
+                    ->default(0)
+                    ->rules(['integer', 'min:0']),
 
                 Forms\Components\Section::make('SEO 設定')
                     ->schema([
@@ -111,12 +120,21 @@ class SinglePageResource extends Resource
                     ->label('圖片')
                     ->defaultImageUrl(url('/images/no-image.png'))
                     ->visibility(fn($record) => $record->image !== null),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('啟用狀態')
+                    ->onColor('success')
+                    ->offColor('danger'),
+                Tables\Columns\TextColumn::make('sort')
+                    ->label('排序')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('最後更新')
                     ->dateTime(),
             ])
+            ->defaultSort('sort', 'asc')
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('啟用狀態'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -143,4 +161,4 @@ class SinglePageResource extends Resource
             'edit' => Pages\EditSinglePage::route('/{record}/edit'),
         ];
     }
-} 
+}
