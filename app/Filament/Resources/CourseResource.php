@@ -33,12 +33,6 @@ class CourseResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增課程';
-
-    protected static ?string $editButtonLabel = '編輯課程';
-
-    protected static ?string $deleteButtonLabel = '刪除課程';
-
     protected static ?string $modelLabel = '教育課程';
 
     protected static ?int $navigationSort = 3;

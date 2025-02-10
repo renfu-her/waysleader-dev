@@ -31,12 +31,6 @@ class NewsResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增最新消息';
-
-    protected static ?string $editButtonLabel = '編輯最新消息';
-
-    protected static ?string $deleteButtonLabel = '刪除最新消息';
-
     protected static ?string $modelLabel = '最新消息';
 
     public static function form(Form $form): Form

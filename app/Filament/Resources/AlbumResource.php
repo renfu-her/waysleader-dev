@@ -37,12 +37,6 @@ class AlbumResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增相簿';
-
-    protected static ?string $editButtonLabel = '編輯相簿';
-
-    protected static ?string $deleteButtonLabel = '刪除相簿';
-
     protected static ?string $modelLabel = '相簿';
 
     public static function form(Form $form): Form

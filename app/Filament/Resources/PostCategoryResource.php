@@ -30,12 +30,6 @@ class PostCategoryResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $createButtonLabel = '新增分類';
-
-    protected static ?string $editButtonLabel = '編輯文章分類';
-
-    protected static ?string $deleteButtonLabel = '刪除文章分類';
-
     protected static ?string $modelLabel = '文章分類';
 
     protected static ?int $navigationSort = 1; // 讓分類顯示在文章之前

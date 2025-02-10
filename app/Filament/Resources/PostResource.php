@@ -35,12 +35,6 @@ class PostResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $createButtonLabel = '新增文章';
-
-    protected static ?string $editButtonLabel = '編輯文章';
-
-    protected static ?string $deleteButtonLabel = '刪除文章';
-
     protected static ?string $modelLabel = '文章';
 
     protected static ?int $navigationSort = 2; // 讓文章顯示在分類之後
