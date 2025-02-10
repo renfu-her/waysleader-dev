@@ -96,12 +96,14 @@ class NewsResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('meta_title')
                             ->label('SEO 標題')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->default(fn(Forms\Get $get) => $get('title')),
 
                         Forms\Components\Textarea::make('meta_description')
                             ->label('SEO 描述')
                             ->rows(3)
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->default(fn(Forms\Get $get) => strip_tags($get('content'))),
 
                         Forms\Components\TextInput::make('meta_keywords')
                             ->label('SEO 關鍵字')
