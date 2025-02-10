@@ -28,6 +28,7 @@ class CourseController extends Controller
                 ->get()
                 ->map(function ($course) {
                     return [
+
                         'id' => $course->id,
                         'title' => $course->title,
                         'subtitle' => $course->subtitle,
