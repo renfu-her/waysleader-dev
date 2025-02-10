@@ -27,8 +27,8 @@ class SettingController extends Controller
 
         // 將 Setting 模型轉成陣列，再使用 asset() 輸出完整網址
         $data = $setting->toArray();
-        $data['site_logo']    = $setting->site_logo ? asset($setting->site_logo) : null;
-        $data['site_favicon'] = $setting->site_favicon ? asset($setting->site_favicon) : null;
+        $data['site_logo']    = $setting->site_logo ? asset('storage/' . $setting->site_logo) : null;
+        $data['site_favicon'] = $setting->site_favicon ? asset('storage/' . $setting->site_favicon) : null;
 
         // 回傳狀態與資料
         return response()->json([
