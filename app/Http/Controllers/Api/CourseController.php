@@ -10,69 +10,94 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::where('is_active', true)
-            ->select([
-                'id',
-                'title',
-                'subtitle',
-                'image',
-                'content',
-                'is_new',
-                'meta_title',
-                'meta_description',
-                'meta_keywords',
-                'created_at'
-            ])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($course) {
-                return [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                    'subtitle' => $course->subtitle,
-                    'image_url' => $course->image_url,
-                    'content' => $course->content,
-                    'is_new' => $course->is_new,
-                    'meta' => [
-                        'title' => $course->meta_title,
-                        'description' => $course->meta_description,
-                        'keywords' => $course->meta_keywords,
-                    ],
-                    'created_at' => $course->created_at->format('Y-m-d H:i:s'),
-                ];
-            });
+        try {
+            $courses = Course::where('is_active', true)
+                ->select([
+                    'id',
+                    'title',
+                    'subtitle',
+                    'image',
+                    'content',
+                    'is_new',
+                    'meta_title',
+                    'meta_description',
+                    'meta_keywords',
+                    'created_at'
+                ])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(function ($course) {
+                    return [
+                        'id' => $course->id,
+                        'title' => $course->title,
+                        'subtitle' => $course->subtitle,
+                        'image_url' => $course->image_url,
+                        'content' => $course->content,
+                        'is_new' => $course->is_new,
+                        'meta' => [
+                            'title' => $course->meta_title,
+                            'description' => $course->meta_description,
+                            'keywords' => $course->meta_keywords,
+                        ],
+                        'created_at' => $course->created_at->format('Y-m-d H:i:s'),
+                    ];
+                });
 
-        return response()->json($courses);
+            return response()->json([
+                'status' => 'success',
+                'data' => $courses
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => '獲取課程列表失敗'
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        $course = Course::with('images')
-            ->where('is_active', true)
-            ->findOrFail($id);
+        try {
+            $course = Course::with('images')
+                ->where('is_active', true)
+                ->findOrFail($id);
 
-        $data = [
-            'id' => $course->id,
-            'title' => $course->title,
-            'subtitle' => $course->subtitle,
-            'image_url' => $course->image_url,
-            'content' => $course->content,
-            'is_new' => $course->is_new,
-            'meta' => [
-                'title' => $course->meta_title,
-                'description' => $course->meta_description,
-                'keywords' => $course->meta_keywords,
-            ],
-            'images' => $course->images->map(function ($image) {
-                return [
-                    'id' => $image->id,
-                    'image_url' => $image->image_url,
-                    'sort' => $image->sort,
-                ];
-            }),
-            'created_at' => $course->created_at->format('Y-m-d H:i:s'),
-        ];
+            $data = [
+                'id' => $course->id,
+                'title' => $course->title,
+                'subtitle' => $course->subtitle,
+                'image_url' => $course->image_url,
+                'content' => $course->content,
+                'is_new' => $course->is_new,
+                'meta' => [
+                    'title' => $course->meta_title,
+                    'description' => $course->meta_description,
+                    'keywords' => $course->meta_keywords,
+                ],
+                'images' => $course->images->map(function ($image) {
+                    return [
+                        'id' => $image->id,
+                        'image_url' => $image->image_url,
+                        'sort' => $image->sort,
+                    ];
+                }),
+                'created_at' => $course->created_at->format('Y-m-d H:i:s'),
+            ];
 
-        return response()->json($data);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => '找不到該課程'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => '獲取課程詳情失敗'
+            ], 500);
+        }
     }
 }
