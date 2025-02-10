@@ -17,6 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 use App\Filament\Resources\CourseResource\RelationManagers\ImagesRelationManager;
+use Filament\Tables\Columns\ToggleColumn;
 
 class CourseResource extends Resource
 {
@@ -100,11 +101,13 @@ class CourseResource extends Resource
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('啟用')
-                            ->default(true),
+                            ->default(true)
+                            ->inline(false),
 
                         Forms\Components\Toggle::make('is_new')
                             ->label('新課程')
-                            ->default(false),
+                            ->default(false)
+                            ->inline(false),
                     ]),
 
                 Forms\Components\Section::make('SEO 設定')
@@ -147,18 +150,21 @@ class CourseResource extends Resource
                     ->wrap()
                     ->html(),
 
-                Tables\Columns\IconColumn::make('is_active')
+                ToggleColumn::make('is_active')
                     ->label('啟用')
-                    ->boolean(),
-
-                Tables\Columns\IconColumn::make('is_new')
+                    ->onIcon('heroicon-o-check-circle')
+                    ->offIcon('heroicon-o-x-circle')
+                    ->action(function ($record, $state) {
+                        $record->update(['is_active' => $state]);
+                    }),
+                ToggleColumn::make('is_new')
                     ->label('新課程')
-                    ->boolean(),
+                    ->onIcon('heroicon-o-check-circle')
+                    ->offIcon('heroicon-o-x-circle')
+                    ->action(function ($record, $state) {
+                        $record->update(['is_new' => $state]);
+                    }),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('建立時間')
-                    ->dateTime()
-                    ->sortable(),
             ])
             ->filters([
                 //
