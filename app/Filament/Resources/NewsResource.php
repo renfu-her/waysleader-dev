@@ -33,6 +33,11 @@ class NewsResource extends Resource
 
     protected static ?string $modelLabel = '最新消息';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

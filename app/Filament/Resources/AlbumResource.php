@@ -39,6 +39,8 @@ class AlbumResource extends Resource
 
     protected static ?string $modelLabel = '相簿';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Form $form): Form
     {
         return $form
