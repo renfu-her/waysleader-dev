@@ -45,7 +45,7 @@ class PostController extends Controller
                 return [
                     'id' => $post->id,
                     'title' => $post->title,
-                    'excerpt' => Str::limit(strip_tags($post->content), 100),
+                    'excerpt' => $post->content,
                     'image_url' => $post->image_url,
                     'created_at' => $post->created_at->format('Y-m-d H:i:s')
                 ];
