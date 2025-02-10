@@ -11,20 +11,41 @@ class EditSetting extends EditRecord
 {
     protected static string $resource = SettingResource::class;
 
-    public function getRecord(): Model
+    /**
+     * 覆寫 mount 方法，使 $record 參數變爲可選。
+     */
+    public function mount($record = null): void
     {
-        return Setting::instance();
+        if (empty($record)) {
+            // 如果沒有傳入記錄 ID，則取得現有設定，若無則自動建立一筆預設記錄
+            $setting = Setting::first();
+            if (! $setting) {
+                $setting = Setting::create([
+                    'site_name' => config('app.name'),
+                    // 可依需求補上其他預設值
+                ]);
+            }
+            $record = $setting->getKey();
+        }
+
+        parent::mount($record);
     }
 
-    // 隱藏刪除按鈕
+    public function getRecord(): Model
+    {
+        // 此處直接返回唯一的設定記錄
+        return Setting::first();
+    }
+
     protected function getHeaderActions(): array
     {
+        // 不需要其他動作按鈕
         return [];
     }
 
-    // 添加這個方法來處理表單提交
     protected function afterSave(): void
     {
+        // 如果有設定快取，可在此處清除
         cache()->forget('site-settings');
     }
 }
