@@ -39,7 +39,7 @@ class PostController extends Controller
     {
         $posts = $category->posts()
             ->where('is_active', true)
-            ->orderByDesc('created_at')
+            ->orderBy('created_at')
             ->get()
             ->map(function ($post) {
                 return [
