@@ -15,13 +15,7 @@ class CourseController extends Controller
                 ->select([
                     'id',
                     'title',
-                    'subtitle',
-                    'image',
-                    'content',
                     'is_new',
-                    'meta_title',
-                    'meta_description',
-                    'meta_keywords',
                     'created_at'
                 ])
                 ->orderBy('created_at', 'desc')
@@ -31,15 +25,6 @@ class CourseController extends Controller
 
                         'id' => $course->id,
                         'title' => $course->title,
-                        'subtitle' => $course->subtitle,
-                        'image_url' => $course->image_url,
-                        'content' => $course->content,
-                        'is_new' => $course->is_new,
-                        'meta' => [
-                            'title' => $course->meta_title,
-                            'description' => $course->meta_description,
-                            'keywords' => $course->meta_keywords,
-                        ],
                         'created_at' => $course->created_at->format('Y-m-d H:i:s'),
                     ];
                 });
