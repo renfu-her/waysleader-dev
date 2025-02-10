@@ -22,7 +22,7 @@ class FaqResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
 
-    
+
     protected static ?string $navigationGroup = '網站管理';
 
     protected static ?string $navigationLabel = '常見問題';
@@ -47,6 +47,15 @@ class FaqResource extends Resource
                     ->rows(10)
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('啟用')
+                    ->default(true)
+                    ->inline(false),
+                Forms\Components\TextInput::make('sort')
+                    ->label('排序')
+                    ->numeric()
+                    ->default(0)
+                    ->rules(['integer', 'min:0']),
             ]);
     }
 
@@ -54,18 +63,33 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
-                TextColumn::make('question')->limit(50),
-                TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('sort')
+                    ->label('排序')
+                    ->sortable(),
+                TextColumn::make('question')
+                    ->label('問題')
+                    ->limit(50)
+                    ->searchable(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('啟用狀態')
+                    ->onColor('success')
+                    ->offColor('danger'),
+                TextColumn::make('updated_at')
+                    ->label('最後更新')
+                    ->dateTime(),
             ])
+            ->defaultSort('sort', 'asc')
             ->filters([
-                // 可以在此加入過濾器
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('啟用狀態'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

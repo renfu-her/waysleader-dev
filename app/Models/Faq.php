@@ -13,5 +13,12 @@ class Faq extends Model
     protected $fillable = [
         'question',
         'answer',
+        'is_active',
+        'sort'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'sort' => 'integer',
     ];
 }
