@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -19,6 +20,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('Qq123456'),
+        ]);
+
+        $this->call([
+            // ... 其他 seeders
+            SinglePagesSeeder::class,
         ]);
     }
 }
