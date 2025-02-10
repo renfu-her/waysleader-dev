@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AlbumController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\CourseApiController;
+use App\Http\Controllers\Api\CourseController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -26,8 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
     // 課程列表 API
-    Route::get('/courses', [CourseApiController::class, 'index']);
+    Route::get('/courses', [CourseController::class, 'index']);
 
     // 單個課程詳情 API
-    Route::get('/courses/{course}', [CourseApiController::class, 'show']);
+    Route::get('/courses/{id}', [CourseController::class, 'show']);
 });
