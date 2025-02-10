@@ -40,7 +40,6 @@ class PostController extends Controller
         $posts = $category->posts()
             ->where('is_active', true)
             ->orderByDesc('created_at')
-            ->paginate(10)
             ->through(function ($post) {
                 return [
                     'id' => $post->id,
@@ -59,11 +58,6 @@ class PostController extends Controller
                 ],
                 'posts' => $posts->items()
             ],
-            'meta' => [
-                'current_page' => $posts->currentPage(),
-                'total' => $posts->total(),
-                'per_page' => $posts->perPage(),
-            ]
         ]);
     }
 
