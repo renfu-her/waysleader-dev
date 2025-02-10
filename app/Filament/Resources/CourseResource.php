@@ -16,6 +16,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
+use App\Filament\Resources\CourseResource\RelationManagers\ImagesRelationManager;
 
 class CourseResource extends Resource
 {
@@ -226,7 +227,7 @@ class CourseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ImagesRelationManager::class,
         ];
     }
 

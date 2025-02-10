@@ -22,9 +22,9 @@ class Course extends Model
         'is_new' => 'boolean'
     ];
 
-    public function images(): HasMany
+    public function images()
     {
-        return $this->hasMany(CourseImage::class)->orderBy('sort');
+        return $this->hasMany(CourseImage::class);
     }
 
     public function getImageUrlAttribute()
