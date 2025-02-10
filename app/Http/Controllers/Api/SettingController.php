@@ -15,19 +15,25 @@ class SettingController extends Controller
     {
         $setting = Setting::first();
 
-        if (! $setting) {
+        if (!$setting) {
             // 若設定不存在，回傳 status 為 false 並傳入錯誤 message 及 404 HTTP 狀態碼
             return response()->json([
                 'status'  => 'fail',
                 'data'    => null,
                 'message' => '尚未建立站台設定',
             ], 404);
+
         }
 
-        // 若設定存在，回傳 status 為 true 與該筆資料
+        // 將 Setting 模型轉成陣列，再使用 asset() 輸出完整網址
+        $data = $setting->toArray();
+        $data['site_logo']    = $setting->site_logo ? asset($setting->site_logo) : null;
+        $data['site_favicon'] = $setting->site_favicon ? asset($setting->site_favicon) : null;
+
+        // 回傳狀態與資料
         return response()->json([
             'status' => 'success',
-            'data'   => $setting,
+            'data'   => $data,
         ]);
 
     }
