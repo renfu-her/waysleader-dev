@@ -25,7 +25,7 @@
                                     </figure>
                                     @if ($course['category'])
                                         <div class="position-absolute top-0 start-0 mt-3 ms-3">
-                                            <span class="badge bg-primary rounded-pill">{{ $course['category'] }}</span>
+                                            <span class="category-badge">{{ $course['category'] }}</span>
                                         </div>
                                     @endif
                                 @endif
@@ -47,4 +47,20 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('styles')
+    <style>
+        .category-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+        }
+    </style>
 @endsection
