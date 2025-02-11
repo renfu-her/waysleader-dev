@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Course extends Model
 {
     protected $fillable = [
+        'course_category_id',
         'title',
         'subtitle',
         'image',
