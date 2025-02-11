@@ -1,48 +1,60 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('courses.index') }}">課程分級</a></li>
-                    <li class="breadcrumb-item active">{{ $course['title'] }}</li>
-                </ol>
-            </nav>
+<section class="wrapper bg-soft-primary">
+    <div class="container pt-16 pt-md-18 pb-16 pb-md-18">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card">
+                    <div class="card-body p-lg-8">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h1 class="display-1 mb-3">{{ $course['title'] }}</h1>
+                                @if($course['subtitle'])
+                                    <h2 class="fs-16 text-uppercase text-line text-primary mb-3">{{ $course['subtitle'] }}</h2>
+                                @endif
+                                
+                                @if($course['is_new'])
+                                    <span class="badge bg-primary rounded-pill mb-4">新課程</span>
+                                @endif
 
-            <h1>{{ $course['title'] }}</h1>
-            @if ($course['subtitle'])
-                <h4 class="text-muted">{{ $course['subtitle'] }}</h4>
-            @endif
+                                <div class="row">
+                                    <div class="col-lg-12 mb-0">
+                                        <div class="blog classic-view">
+                                            <article class="post">
+                                                @if($course['image_url'])
+                                                    <figure class="rounded mb-6">
+                                                        <img class="img-fluid lazy" src="{{ $course['image_url'] }}" alt="{{ $course['title'] }}">
+                                                    </figure>
+                                                @endif
+                                                <div class="post-content">
+                                                    {!! $course['content'] !!}
+                                                </div>
+                                            </article>
+                                        </div>
+                                    </div>
+                                </div>
 
-            @if ($course['is_new'])
-                <span class="badge bg-success">新課程</span>
-            @endif
-        </div>
-
-        @if ($course['image_url'])
-            <div class="col-md-12 mt-4">
-                <img src="{{ $course['image_url'] }}" alt="{{ $course['title'] }}" class="img-fluid lazy">
-            </div>
-        @endif
-
-        <div class="col-md-12 mt-4">
-            <div class="content">
-                {!! $course['content'] !!}
-            </div>
-        </div>
-
-        @if (!empty($course['images']))
-            <div class="col-md-12 mt-4">
-                <h3>課程相關圖片</h3>
-                <div class="row">
-                    @foreach ($course['images'] as $image)
-                        <div class="col-md-4 mb-4">
-                            <img src="{{ $image['image_url'] }}" alt="課程圖片" class="img-fluid lazy">
+                                @if(!empty($course['images']))
+                                    <div class="row g-6 mt-6">
+                                        <h3 class="h2 mb-3">課程相關圖片</h3>
+                                        @foreach($course['images'] as $image)
+                                            <div class="col-md-6">
+                                                <figure class="hover-scale rounded cursor-dark">
+                                                    <a href="{{ $image['image_url'] }}" data-glightbox data-gallery="course">
+                                                        <img src="{{ $image['image_url'] }}" alt="課程圖片" class="img-fluid lazy">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
+</section>
 @endsection 
