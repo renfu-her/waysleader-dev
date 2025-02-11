@@ -122,7 +122,7 @@
                         if (course.image_url) {
                             const slide = `
                                 <div class="swiper-slide" style="width: 30%;">
-                                    <figure class="rounded-xl shadow-xl h-60 mb-0">
+                                    <figure class="rounded-xl shadow-xl h-60 m-3">
                                         <a href="/courses/${course.id}">
                                             <img src="${course.image_url}" 
                                                  alt="${course.title}" 
