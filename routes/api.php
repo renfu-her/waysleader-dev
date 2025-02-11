@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseApiController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\SinglePageController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -39,4 +40,8 @@ Route::prefix('v1')->group(function () {
 
     // 常見問題 API
     Route::get('/faqs', [FaqController::class, 'index']);
+
+    // 單頁管理 API
+    Route::get('/pages', [SinglePageController::class, 'index']);
+    Route::get('/pages/{slug}', [SinglePageController::class, 'show']);
 });
