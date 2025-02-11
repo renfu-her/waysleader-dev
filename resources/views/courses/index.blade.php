@@ -54,13 +54,14 @@
         .category-badge {
             display: inline-block;
             padding: 6px 12px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background-color: #ff9f43;
+            /* 橘黃色背景 */
+            color: #ffffff;
+            /* 白色文字 */
             border-radius: 5px;
             font-size: 0.875rem;
             font-weight: 500;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(4px);
         }
     </style>
 @endsection
