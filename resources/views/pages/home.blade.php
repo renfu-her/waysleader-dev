@@ -34,7 +34,7 @@
         <div class="container py-14 py-md-16">
             <div class="row text-center">
                 <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                    <h3 class="fs-16 text-uppercase text-primary mb-3">課程分級</h3>
+                    <h2 class="text-uppercase text-primary mb-3">課程分級</h2>
                     <p class="fs-18 mb-6">為不同程度的學習者提供合適的課程</p>
                 </div>
             </div>
@@ -97,7 +97,7 @@
         <div class="container pb-14 pb-md-16">
             <div class="row">
                 <div class="col-lg-10 col-xl-9 col-xxl-8 mx-auto text-center">
-                    <h3 class="fs-16 text-uppercase text-primary mb-3">最新課程</h3>
+                    <h2 class="text-uppercase text-primary mb-3">最新課程</h2>
                     <p class="fs-18 mb-6">探索我們的課程</p>
                 </div>
             </div>
