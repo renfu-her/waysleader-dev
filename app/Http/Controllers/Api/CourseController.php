@@ -38,46 +38,35 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        try {
-            $course = Course::with('images')
-                ->where('is_active', true)
-                ->findOrFail($id);
 
-            $data = [
-                'id' => $course->id,
-                'title' => $course->title,
-                'subtitle' => $course->subtitle,
-                'image_url' => $course->image_url,
-                'content' => $course->content,
-                'is_new' => $course->is_new,
-                'meta' => [
-                    'title' => $course->meta_title,
-                    'description' => $course->meta_description,
-                    'keywords' => $course->meta_keywords,
-                ],
-                'images' => $course->images->map(function ($image) {
-                    return [
-                        'id' => $image->id,
-                        'image_url' => $image->image_url,
-                        'sort' => $image->sort,
-                    ];
-                }),
-            ];
+        $course = Course::with('images')
+            ->where('is_active', true)
+            ->findOrFail($id);
 
-            return response()->json([
-                'status' => 'success',
-                'data' => $data
-            ]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => '找不到該課程'
-            ], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => '獲取課程詳情失敗'
-            ], 500);
-        }
+        $data = [
+            'id' => $course->id,
+            'title' => $course->title,
+            'subtitle' => $course->subtitle,
+            'image_url' => $course->image_url,
+            'content' => $course->content,
+            'is_new' => $course->is_new,
+            'meta' => [
+                'title' => $course->meta_title,
+                'description' => $course->meta_description,
+                'keywords' => $course->meta_keywords,
+            ],
+            'images' => $course->images->map(function ($image) {
+                return [
+                    'id' => $image->id,
+                    'image_url' => $image->image_url,
+                    'sort' => $image->sort,
+                ];
+            }),
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ]);
     }
 }
