@@ -57,7 +57,7 @@
             justify-content: center;
             min-width: 80px;
             padding: 6px 12px;
-            padding-top: 8px;
+            padding-top: 8px !important;
             background-color: #ff9f43;
             color: #ffffff;
             border-radius: 5px;
