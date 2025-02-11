@@ -52,16 +52,19 @@
 @section('styles')
     <style>
         .category-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
             padding: 6px 12px;
+            padding-top: 8px;
             background-color: #ff9f43;
-            /* 橘黃色背景 */
             color: #ffffff;
-            /* 白色文字 */
             border-radius: 5px;
             font-size: 0.875rem;
             font-weight: 500;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
     </style>
 @endsection
