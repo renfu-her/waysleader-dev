@@ -9,13 +9,14 @@
                         <div class="card-body p-lg-8">
                             <div class="row">
                                 <div class="col-lg-8">
-                                    @if($course['category'])
+                                    @if ($course['category'])
                                         <span class="category-badge mb-3">{{ $course['category'] }}</span>
                                     @endif
 
                                     <h2 class="h2 mb-3">{{ $course['title'] }}</h2>
                                     @if ($course['subtitle'])
-                                        <p class="fs-16 text-uppercase text-line text-primary mb-3">{{ $course['subtitle'] }}
+                                        <p class="fs-16 text-uppercase text-line text-primary mb-3">
+                                            {{ $course['subtitle'] }}
                                         </p>
                                     @endif
 
@@ -28,13 +29,15 @@
                                             <div class="blog classic-view">
                                                 <article class="post">
                                                     @if ($course['image_url'])
-                                                        <figure class="rounded mb-6 text-center overflow-hidden"
-                                                            style="height: 250px;">
-                                                            <img class="img-fluid w-100 h-100"
-                                                                src="{{ $course['image_url'] }}"
-                                                                alt="{{ $course['title'] }}"
-                                                                style="object-fit: cover; object-position: center;">
-                                                        </figure>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <figure class="rounded mb-6 text-center overflow-hidden"
+                                                                style="height: 250px; width: 100%; max-width: 800px;">
+                                                                <img class="img-fluid w-100 h-100"
+                                                                    src="{{ $course['image_url'] }}"
+                                                                    alt="{{ $course['title'] }}"
+                                                                    style="object-fit: cover; object-position: center;">
+                                                            </figure>
+                                                        </div>
                                                     @endif
                                                     <div class="post-content">
                                                         {!! $course['content'] !!}
@@ -68,23 +71,4 @@
             </div>
         </div>
     </section>
-@endsection
-
-@section('styles')
-<style>
-    .category-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 80px;
-        padding: 6px 12px;
-        background-color: #ff9f43;
-        color: #ffffff;
-        border-radius: 5px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-</style>
 @endsection
