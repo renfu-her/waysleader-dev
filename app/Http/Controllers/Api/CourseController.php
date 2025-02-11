@@ -40,8 +40,7 @@ class CourseController extends Controller
 
     public function show($id)
     {
-
-        $course = Course::with('images')
+        $course = Course::with(['images', 'category'])
             ->where('is_active', true)
             ->findOrFail($id);
 
@@ -52,6 +51,7 @@ class CourseController extends Controller
             'image_url' => $course->image_url,
             'content' => $course->content,
             'is_new' => $course->is_new,
+            'category' => $course->category ? $course->category->name : null,
             'meta' => [
                 'title' => $course->meta_title,
                 'description' => $course->meta_description,
