@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('single_pages', function (Blueprint $table) {
+            $table->boolean('is_active')->default(true);
             $table->integer('sort')->default(0)->after('is_active');
         });
     }

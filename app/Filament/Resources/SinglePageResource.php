@@ -81,6 +81,16 @@ class SinglePageResource extends Resource
                     ->maxHeight(500)
                     ->minHeight(500),
 
+                Forms\Components\Toggle::make('is_active')
+                    ->label('啟用狀態')
+                    ->default(true)
+                    ->inline(false),
+
+                Forms\Components\TextInput::make('sort')
+                    ->label('排序')
+                    ->default(0)
+                    ->numeric(),
+
                 Forms\Components\Section::make('SEO 設定')
                     ->schema([
                         Forms\Components\TextInput::make('meta_title')
