@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\CourseApiController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\FaqController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -35,5 +36,7 @@ Route::prefix('v1')->group(function () {
 
     // 網站設定 API
     Route::get('/setting', [SettingController::class, 'index']);
-});
 
+    // 常見問題 API
+    Route::get('/faqs', [FaqController::class, 'index']);
+});
