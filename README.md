@@ -117,3 +117,63 @@ GET /api/v1/pages/{slug}
   }
 }
 ```
+
+## 課程教學
+
+```bash
+GET /api/v1/courses
+```
+
+- 回傳資料
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "id": 1,
+      "title": "第一階段",
+      "image_url": "https://waysleader.dev-vue.com/storage/courses/0194f3d9-2e1c-72ce-b380-ac809f28c948.webp",
+      "is_new": false
+    }
+  ]
+}
+
+```
+
+### 課程教學詳情
+
+```bash
+GET /api/v1/courses/{id}
+```
+
+- 回傳資料
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "title": "第一階段",
+    "subtitle": null,
+    "image_url": "https://waysleader.dev-vue.com/storage/courses/0194f3d9-2e1c-72ce-b380-ac809f28c948.webp",
+    "content": "<p>內容</p>",
+    "is_new": false,
+    "meta": {
+      "title": null,
+      "description": null,
+      "keywords": null
+    },
+    "images": [
+      {
+        "id": 1,
+        "image_url": "https://waysleader.dev-vue.com/storage/course-images/0194f3e4-0006-728a-8824-869d9cc015cc.webp",
+        "sort": 1
+      }
+    ]
+  }
+}
+
+```
+
+

@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application API URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the console to properly generate URLs when using
+    | the Artisan command line tool. You should set this to the root of
+    | your application's API so that it is used when running Artisan tasks.
+    |
+    */
+
+    'api_url' => env('API_URL', 'https://waysleader.dev-vue.com'),
+
 ];
