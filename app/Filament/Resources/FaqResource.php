@@ -76,7 +76,7 @@ class FaqResource extends Resource
                     ->offColor('danger'),
                 TextColumn::make('updated_at')
                     ->label('最後更新')
-                    ->dateTime(),
+                    ->dateTime('Y-m-d H:i:s'),
             ])
             ->defaultSort('sort', 'asc')
             ->filters([
