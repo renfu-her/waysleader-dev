@@ -11,8 +11,7 @@
                 <div class="col-lg-8 col-xxl-7 mx-auto position-relative">
                     <div class="position-absolute shape grape w-5 d-none d-lg-block" style="top: -5%; left: -15%;"
                         data-cue="fadeIn" data-delay="1500">
-                        <img src="{{ asset('assets/img/svg/pie.svg') }}" class="svg-inject icon-svg w-100 h-100"
-                            alt="">
+                        
                     </div>
 
                     <div data-cues="slideInDown" data-group="page-title">
