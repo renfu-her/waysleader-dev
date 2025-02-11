@@ -21,5 +21,8 @@ class Setting extends Model
         'line_url',
     ];
 
-    
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

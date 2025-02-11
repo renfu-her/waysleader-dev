@@ -14,4 +14,9 @@ class PostCategory extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
 
 class PostController extends Controller
 {
@@ -16,13 +14,12 @@ class PostController extends Controller
         $categories = PostCategory::withCount(['posts' => function ($query) {
             $query->where('is_active', true);
         }])
-            ->orderBy('created_at', 'asc')
+            ->orderBy('sort')
             ->get()
             ->map(function ($category) {
                 return [
                     'id' => $category->id,
                     'name' => $category->name,
-                    'created_at' => $category->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
@@ -38,13 +35,12 @@ class PostController extends Controller
     {
         $posts = $category->posts()
             ->where('is_active', true)
-            ->orderBy('created_at')
+            ->orderBy('sort')
             ->get()
             ->map(function ($post) {
                 return [
                     'id' => $post->id,
                     'title' => $post->title,
-                    'created_at' => $post->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
@@ -75,10 +71,7 @@ class PostController extends Controller
                     'id' => $post->post_category_id,
                     'name' => $post->category->name
                 ],
-                'created_at' => $post->created_at->format('Y-m-d H:i:s'),
-                'updated_at' => $post->updated_at->format('Y-m-d H:i:s')
             ]
         ]);
     }
-
 }

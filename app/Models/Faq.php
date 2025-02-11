@@ -21,4 +21,9 @@ class Faq extends Model
         'is_active' => 'boolean',
         'sort' => 'integer',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

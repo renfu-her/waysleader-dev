@@ -20,10 +20,14 @@ class Course extends Model
         'meta_keywords'
     ];
 
-
     protected $casts = [
         'is_active' => 'boolean',
         'is_new' => 'boolean'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function images()

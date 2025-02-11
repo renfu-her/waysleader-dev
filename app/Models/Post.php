@@ -43,4 +43,9 @@ class Post extends Model
     {
         return Str::limit(strip_tags($this->content), 100);
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

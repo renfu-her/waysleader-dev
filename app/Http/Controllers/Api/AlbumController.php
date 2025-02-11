@@ -12,7 +12,7 @@ class AlbumController extends Controller
     {
         $albums = Album::with('images')
             ->where('is_active', true)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('sort')
             ->get()
             ->map(function ($album) {
                 return [
@@ -27,7 +27,6 @@ class AlbumController extends Controller
                             'sort' => $image->sort
                         ];
                     }),
-                    'created_at' => $album->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
@@ -57,7 +56,6 @@ class AlbumController extends Controller
                         'sort' => $image->sort
                     ];
                 }),
-                'created_at' => $album->created_at->format('Y-m-d H:i:s')
             ]
         ]);
     }

@@ -17,6 +17,11 @@ class AlbumImage extends Model
         'sort' => 'integer'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);

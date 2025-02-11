@@ -18,7 +18,6 @@ class SinglePageResource extends JsonResource
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
             'meta_keywords' => $this->meta_keywords,
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -11,7 +11,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::where('is_active', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('sort')
             ->get()
             ->map(function ($item) {
                 return [
@@ -20,7 +20,6 @@ class NewsController extends Controller
                     'content' => $item->content,
                     'image' => $item->image ? asset('storage/news/' . $item->image) : null,
                     'is_new' => $item->is_new,
-                    'created_at' => $item->created_at->format('Y-m-d H:i:s')
                 ];
             });
 
@@ -43,7 +42,6 @@ class NewsController extends Controller
                 'content' => $news->content,
                 'image' => $news->image ? asset('storage/news/' . $news->image) : null,
                 'is_new' => $news->is_new,
-                'created_at' => $news->created_at->format('Y-m-d H:i:s')
             ]
         ]);
     }

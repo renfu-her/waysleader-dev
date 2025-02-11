@@ -16,4 +16,9 @@ class News extends Model
         'meta_description',
         'meta_keywords'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

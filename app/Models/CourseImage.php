@@ -18,6 +18,11 @@ class CourseImage extends Model
         'sort' => 'integer'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);

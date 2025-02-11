@@ -17,6 +17,11 @@ class Album extends Model
         'meta_keywords'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function images(): HasMany
     {
         return $this->hasMany(AlbumImage::class);

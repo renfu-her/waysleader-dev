@@ -18,6 +18,11 @@ class CourseCategory extends Model
         'is_active' => 'boolean',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
