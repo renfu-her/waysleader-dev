@@ -26,13 +26,6 @@
                                         <span class="badge bg-primary rounded-pill mb-4">新課程</span>
                                     @endif
 
-                                    @if ($course['image_url'])
-                                        <figure class="rounded mb-6 overflow-hidden" style="height: 250px;">
-                                            <img src="{{ $course['image_url'] }}" alt="{{ $course['title'] }}"
-                                                class="w-100 h-100" style="object-fit: cover; object-position: center;">
-                                        </figure>
-                                    @endif
-
                                     <div class="post-content">
                                         {!! $course['content'] !!}
                                     </div>
