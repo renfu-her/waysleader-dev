@@ -10,7 +10,6 @@ class CourseController extends Controller
 {
     public function index()
     {
-
         $courses = Course::where('is_active', true)
             ->select([
                 'id',
@@ -18,7 +17,9 @@ class CourseController extends Controller
                 'subtitle',
                 'image',
                 'is_new',
+                'course_category_id',
             ])
+            ->with('category:id,name')
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($course) {
@@ -27,6 +28,7 @@ class CourseController extends Controller
                     'title' => $course->title,
                     'image_url' => $course->image ? asset('storage/' . $course->image) : null,
                     'is_new' => $course->is_new,
+                    'category' => $course->category ? $course->category->name : null,
                 ];
             });
 
