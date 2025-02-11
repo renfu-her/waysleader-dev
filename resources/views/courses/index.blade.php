@@ -14,20 +14,27 @@
                 @foreach ($courses as $course)
                     <div class="col-md-6 col-lg-4">
                         <div class="card shadow-lg lift h-100">
-                            @if ($course['image_url'])
-                                <figure class="card-img-top overlay overlay-1">
-                                    <a href="{{ route('courses.show', $course['id']) }}">
-                                        <img class="img-fluid lazy" src="{{ $course['image_url'] }}"
-                                            alt="{{ $course['title'] }}">
-                                        <span class="bg"></span>
-                                    </a>
-                                </figure>
-                            @endif
+                            <div class="card-img-top position-relative">
+                                @if ($course['image_url'])
+                                    <figure class="overlay overlay-1" style="height: 400px;">
+                                        <a href="{{ route('courses.show', $course['id']) }}">
+                                            <img src="{{ $course['image_url'] }}" alt="{{ $course['title'] }}"
+                                                class="img-fluid w-100 h-100"
+                                                style="object-fit: cover; object-position: center;">
+                                        </a>
+                                    </figure>
+                                    @if ($course['category'])
+                                        <div class="position-absolute top-0 start-0 mt-3 ms-3">
+                                            <span class="badge bg-primary rounded-pill">{{ $course['category'] }}</span>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
 
                             <div class="card-body p-6">
                                 <h2 class="mb-3 text-xl">{{ $course['title'] }}</h2>
                                 @if ($course['is_new'])
-                                    <span class="badge bg-primary rounded-pill mb-3">新課程</span>
+                                    <span class="badge bg-danger rounded-pill mb-3">新課程</span>
                                 @endif
                                 <a href="{{ route('courses.show', $course['id']) }}"
                                     class="btn btn-primary rounded-pill mt-3">
