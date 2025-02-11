@@ -14,7 +14,7 @@ class PostController extends Controller
         $categories = PostCategory::withCount(['posts' => function ($query) {
             $query->where('is_active', true);
         }])
-            ->orderBy('sort')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($category) {
                 return [
@@ -35,7 +35,7 @@ class PostController extends Controller
     {
         $posts = $category->posts()
             ->where('is_active', true)
-            ->orderBy('sort')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($post) {
                 return [
