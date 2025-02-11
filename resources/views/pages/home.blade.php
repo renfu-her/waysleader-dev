@@ -11,7 +11,7 @@
                 <div class="col-lg-8 col-xxl-7 mx-auto position-relative">
                     <div class="position-absolute shape grape w-5 d-none d-lg-block" style="top: -5%; left: -15%;"
                         data-cue="fadeIn" data-delay="1500">
-                        
+
                     </div>
 
                     <div data-cues="slideInDown" data-group="page-title">
@@ -103,7 +103,7 @@
             </div>
 
             <div class="swiper-container swiper-auto swiper-auto-xs mb-8" id="latest-courses">
-                <div class="swiper overflow-visible pe-none">
+                <div class="swiper overflow-visible">
                     <div class="swiper-wrapper">
                         <!-- 動態載入課程 -->
                     </div>
@@ -114,7 +114,6 @@
 
     <script>
         $(document).ready(function() {
-            // 獲取最新課程並添加到輪播
             $.get('{{ config('app.api_url') }}/api/v1/courses', function(response) {
                 if (response.status === 'success' && response.data.length > 0) {
                     const swiperWrapper = $('.swiper-wrapper');
@@ -122,33 +121,52 @@
                     response.data.forEach(function(course) {
                         if (course.image_url) {
                             const slide = `
-                        <div class="swiper-slide">
-                            <figure class="rounded-xl shadow-xl">
-                                <a href="/courses/${course.id}">
-                                    <img src="${course.image_url}" alt="${course.title}" class="lazy">
-                                </a>
-                            </figure>
-                        </div>
-                    `;
+                                <div class="swiper-slide" style="width: 30%;">
+                                    <figure class="rounded-xl shadow-xl h-60 mb-0">
+                                        <a href="/courses/${course.id}">
+                                            <img src="${course.image_url}" 
+                                                 alt="${course.title}" 
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover;">
+                                        </a>
+                                    </figure>
+                                    <div class="text-center mt-2">
+                                        <h5 class="mb-0">${course.title}</h5>
+                                    </div>
+                                </div>
+                            `;
                             swiperWrapper.append(slide);
                         }
                     });
 
                     // 初始化 Swiper
                     new Swiper('.swiper-auto', {
-                        slidesPerView: 'auto',
-                        spaceBetween: 40,
-                        centeredSlides: true,
+                        slidesPerView: 3,
+                        spaceBetween: 30,
                         loop: true,
                         autoplay: {
-                            delay: 1,
+                            delay: 3000,
                             disableOnInteraction: false
                         },
-                        speed: 7000,
-                        grabCursor: false,
-                        mousewheelControl: false,
-                        keyboardControl: false,
-                        navigation: false
+                        speed: 1000,
+                        grabCursor: true,
+                        breakpoints: {
+                            // 當視窗寬度大於等於 320px
+                            320: {
+                                slidesPerView: 1,
+                                spaceBetween: 20
+                            },
+                            // 當視窗寬度大於等於 768px
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 30
+                            },
+                            // 當視窗寬度大於等於 1024px
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 30
+                            }
+                        }
                     });
                 }
             });
