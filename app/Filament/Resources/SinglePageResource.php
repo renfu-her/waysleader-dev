@@ -125,7 +125,7 @@ class SinglePageResource extends Resource
                     ->label('標題')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label('Slug (別名)')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
                     ->label('圖片')
