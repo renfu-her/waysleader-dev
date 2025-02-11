@@ -36,5 +36,8 @@ class Course extends Model
         return $this->image ? asset(Storage::url($this->image)) : null;
     }
 
-
+    public function category()
+    {
+        return $this->belongsTo(CourseCategory::class, 'course_category_id');
+    }
 }

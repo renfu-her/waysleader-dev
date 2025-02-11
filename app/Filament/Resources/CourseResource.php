@@ -25,15 +25,15 @@ class CourseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationGroup = '網站管理';
+    protected static ?string $navigationGroup = '課程管理';
 
-    protected static ?string $navigationLabel = '教育課程';
+    protected static ?string $navigationLabel = '課程教學';
 
-    protected static ?string $pluralLabel = '教育課程';
+    protected static ?string $pluralLabel = '課程教學';
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $modelLabel = '教育課程';
+    protected static ?string $modelLabel = '課程教學';
 
     protected static ?int $navigationSort = 2;
 
@@ -44,6 +44,12 @@ class CourseResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
+                        Forms\Components\Select::make('course_category_id')
+                            ->label('課程分類')
+                            ->relationship('category', 'name')
+                            ->searchable()
+                            ->preload(),
+
                         Forms\Components\TextInput::make('title')
                             ->label('標題')
                             ->required()
@@ -143,6 +149,11 @@ class CourseResource extends Resource
                     ->searchable()
                     ->wrap()
                     ->html(),
+
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('課程分類')
+                    ->sortable()
+                    ->searchable(),
 
                 ToggleColumn::make('is_active')
                     ->label('啟用')
