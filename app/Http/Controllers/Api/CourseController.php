@@ -10,36 +10,30 @@ class CourseController extends Controller
 {
     public function index()
     {
-        try {
-            $courses = Course::where('is_active', true)
-                ->select([
-                    'id',
-                    'title',
-                    'subtitle',
-                    'image',
-                    'is_new',
-                ])
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->map(function ($course) {
-                    return [
-                        'id' => $course->id,
-                        'title' => $course->title,
-                        'image_url' => $course->image ? asset('storage/' . $course->image) : null,
-                        'is_new' => $course->is_new,
-                    ];
-                });
 
-            return response()->json([
-                'status' => 'success',
-                'data' => $courses,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => '獲取課程列表失敗'
-            ], 500);
-        }
+        $courses = Course::where('is_active', true)
+            ->select([
+                'id',
+                'title',
+                'subtitle',
+                'image',
+                'is_new',
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($course) {
+                return [
+                    'id' => $course->id,
+                    'title' => $course->title,
+                    'image_url' => $course->image ? asset('storage/' . $course->image) : null,
+                    'is_new' => $course->is_new,
+                ];
+            });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $courses,
+        ]);
     }
 
     public function show($id)
