@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-body p-lg-8">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     @if ($course['category'])
                                         <div class="mb-3">
                                             <span class="category-badge">{{ $course['category'] }}</span>
@@ -26,27 +26,15 @@
                                         <span class="badge bg-primary rounded-pill mb-4">新課程</span>
                                     @endif
 
-                                    <div class="row">
-                                        <div class="col-lg-12 mb-0">
-                                            <div class="blog classic-view">
-                                                <article class="post">
-                                                    @if ($course['image_url'])
-                                                        <div class="d-flex justify-content-center align-items-center">
-                                                            <figure class="rounded mb-6 text-center overflow-hidden"
-                                                                style="height: 250px; width: 100%; max-width: 800px;">
-                                                                <img class="img-fluid w-100 h-100"
-                                                                    src="{{ $course['image_url'] }}"
-                                                                    alt="{{ $course['title'] }}"
-                                                                    style="object-fit: cover; object-position: center;">
-                                                            </figure>
-                                                        </div>
-                                                    @endif
-                                                    <div class="post-content">
-                                                        {!! $course['content'] !!}
-                                                    </div>
-                                                </article>
-                                            </div>
-                                        </div>
+                                    @if ($course['image_url'])
+                                        <figure class="rounded mb-6 overflow-hidden" style="height: 250px;">
+                                            <img src="{{ $course['image_url'] }}" alt="{{ $course['title'] }}"
+                                                class="w-100 h-100" style="object-fit: cover; object-position: center;">
+                                        </figure>
+                                    @endif
+
+                                    <div class="post-content">
+                                        {!! $course['content'] !!}
                                     </div>
 
                                     @if (!empty($course['images']))
