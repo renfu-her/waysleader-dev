@@ -10,7 +10,9 @@
                             <div class="row">
                                 <div class="col-lg-8">
                                     @if ($course['category'])
-                                        <span class="category-badge mb-3">{{ $course['category'] }}</span>
+                                        <div class="mb-3">
+                                            <span class="category-badge">{{ $course['category'] }}</span>
+                                        </div>
                                     @endif
 
                                     <h2 class="h2 mb-3">{{ $course['title'] }}</h2>
@@ -71,4 +73,24 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('styles')
+    <style>
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            padding: 6px 12px;
+            padding-top: 8px !important;
+            background-color: #ff9f43;
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
 @endsection
