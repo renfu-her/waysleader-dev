@@ -31,6 +31,7 @@ class SettingController extends Controller
         $data['site_favicon'] = $setting->site_favicon ? asset('storage/' . $setting->site_favicon) : null;
 
         unset($data['created_at']);
+        unset($data['updated_at']);
 
         // 回傳狀態與資料
         return response()->json([
