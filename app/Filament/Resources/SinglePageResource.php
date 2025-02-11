@@ -44,6 +44,10 @@ class SinglePageResource extends Resource
                     ->label('標題')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->label('Slug (別名)')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
                     ->label('圖片')
                     ->image()
@@ -119,6 +123,9 @@ class SinglePageResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('標題')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image')
                     ->label('圖片')
