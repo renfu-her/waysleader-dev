@@ -12,7 +12,7 @@ class AlbumController extends Controller
     {
         $albums = Album::with('images')
             ->where('is_active', true)
-            ->orderBy('sort')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($album) {
                 return [

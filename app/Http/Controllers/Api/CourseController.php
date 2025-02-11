@@ -19,7 +19,7 @@ class CourseController extends Controller
                     'image',
                     'is_new',
                 ])
-                ->orderBy('sort')
+                ->orderBy('created_at', 'desc')
                 ->get()
                 ->map(function ($course) {
                     return [
