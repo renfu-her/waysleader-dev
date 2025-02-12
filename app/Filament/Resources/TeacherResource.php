@@ -17,9 +17,17 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = '網站管理';
+
     protected static ?string $modelLabel = '師資';
 
     protected static ?string $pluralModelLabel = '團隊師資';
+
+    protected static ?string $pluralLabel = '團隊師資';
+
+    protected static ?string $recordTitleAttribute = 'title';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
