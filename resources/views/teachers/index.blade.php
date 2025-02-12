@@ -24,9 +24,9 @@
 
                                 <h4 class="mb-1">{{ $teacher['name'] }}</h4>
                                 <div class="meta mb-2">{{ $teacher['title'] }}</div>
-                                <p class="mb-2">
+                                <div class="text-start mb-2">
                                     {!! $teacher['content'] !!}
-                                </p>
+                                </div>
                                 <a href="{{ route('teachers.show', $teacher['id']) }}"
                                     class="btn btn-primary rounded-pill mt-3">
                                     了解更多
@@ -38,4 +38,13 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('styles')
+    <style>
+        .card-body .text-start p {
+            text-align: left !important;
+            margin-bottom: 0.5rem;
+        }
+    </style>
 @endsection
