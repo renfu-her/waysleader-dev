@@ -31,7 +31,7 @@
 <body class="bg-soft-primary">
     <div class="content-wrapper">
         <header class="position-absolute w-100">
-            <nav class="navbar navbar-expand-lg center-nav transparent navbar-light">
+            <nav class="navbar navbar-expand-lg center-nav navbar-light bg-white">
                 <div class="container flex-lg-row flex-nowrap align-items-center">
                     <div class="navbar-brand w-100">
                         <a href="/">
@@ -45,10 +45,10 @@
                     </div>
 
                     <div class="navbar-other w-100 d-flex ms-auto">
-                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto" style="padding-right: 15px;">
                             <li class="nav-item d-lg-none">
-                                <button class="hamburger offcanvas-nav-btn" data-bs-toggle="offcanvas"
-                                    data-bs-target=".navbar-collapse">
+                                <button class="hamburger offcanvas-nav-btn" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                                     <span></span>
                                 </button>
                             </li>
