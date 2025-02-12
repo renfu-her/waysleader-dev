@@ -44,6 +44,17 @@
                         </a>
                     </div>
 
+                    <div class="navbar-other w-100 d-flex ms-auto">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item d-lg-none">
+                                <button class="hamburger offcanvas-nav-btn" data-bs-toggle="offcanvas"
+                                    data-bs-target=".navbar-collapse">
+                                    <span></span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
                         <div class="offcanvas-header d-lg-none">
                             <h3 class="text-white fs-30 mb-0">{{ $siteSettings->site_name }}</h3>
