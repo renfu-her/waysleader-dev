@@ -105,15 +105,18 @@ class TeacherResource extends Resource
                             ->columnSpanFull()
                             ->maxHeight(500)
                             ->minHeight(500),
-
-                        Forms\Components\Toggle::make('is_active')
-                            ->label('啟用')
-                            ->default(true),
-
+                            
                         Forms\Components\TextInput::make('sort')
                             ->label('排序')
                             ->numeric()
                             ->default(0),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('啟用')
+                            ->default(true)
+                            ->inline(false),
+
+
                     ])
                     ->columns(2)
             ]);
