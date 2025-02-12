@@ -24,7 +24,9 @@
 
                                 <h4 class="mb-1">{{ $teacher['name'] }}</h4>
                                 <div class="meta mb-2">{{ $teacher['title'] }}</div>
-                                <p class="mb-2">{!! $teacher['content'] !!}</p>
+                                <p class="mb-2">
+                                    {!! $teacher['content'] !!}
+                                </p>
                                 <a href="{{ route('teachers.show', $teacher['id']) }}"
                                     class="btn btn-primary rounded-pill mt-3">
                                     了解更多
