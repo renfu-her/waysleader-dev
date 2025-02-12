@@ -73,5 +73,22 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
+        /* 添加 iframe 容器樣式 */
+        .post-content iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: 0;
+        }
+
+        /* 為舊瀏覽器提供支援 */
+        @supports not (aspect-ratio: 16/9) {
+            .post-content iframe {
+                height: 56.25vw;
+                /* 16:9 = 9/16 = 0.5625 */
+                max-height: calc((100vw - 3rem) * 0.5625);
+                /* 考慮容器邊距 */
+            }
+        }
     </style>
 @endsection
