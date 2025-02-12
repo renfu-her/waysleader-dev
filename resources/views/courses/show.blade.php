@@ -74,20 +74,38 @@
             text-align: center;
         }
 
-        /* 添加 iframe 容器樣式 */
+        /* 改進 iframe 容器樣式 */
         .post-content iframe {
             width: 100%;
             aspect-ratio: 16/9;
             border: 0;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 使用包裝容器來確保比例 */
+        .post-content iframe-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 比例 (9/16 = 0.5625) */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .post-content .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         /* 為舊瀏覽器提供支援 */
         @supports not (aspect-ratio: 16/9) {
             .post-content iframe {
                 height: 56.25vw;
-                /* 16:9 = 9/16 = 0.5625 */
-                max-height: calc((100vw - 3rem) * 0.5625);
-                /* 考慮容器邊距 */
+                max-height: calc(100vw * 0.5625);
             }
         }
     </style>
