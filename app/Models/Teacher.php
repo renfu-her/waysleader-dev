@@ -26,4 +26,9 @@ class Teacher extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
 }
