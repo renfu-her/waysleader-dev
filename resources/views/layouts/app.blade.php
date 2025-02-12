@@ -62,7 +62,7 @@
                                         <li><a class="dropdown-item"
                                                 href="{{ route('pages.show', 'contact') }}">與我聯繫</a></li>
                                         <li><a class="dropdown-item" href="{{ route('faqs.index') }}">Q&A</a></li>
-                                        
+
                                     </ul>
                                 </li>
 
@@ -76,8 +76,19 @@
                                     </ul>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">成果展示</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#"
+                                        data-bs-toggle="dropdown">成果展示</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('achievements.category', 'creative') }}">創意展示</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('achievements.category', 'sharing') }}">成果分享</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
@@ -102,7 +113,7 @@
     <script src="{{ asset('assets/js/theme.js') }}"></script>
 
     @yield('scripts')
-    
+
 </body>
 
 </html>

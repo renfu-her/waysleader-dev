@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // ... 其他 seeders
             SinglePagesSeeder::class,
+            AchievementCategorySeeder::class,
         ]);
     }
 }
