@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\SinglePageController;
 use App\Http\Controllers\Api\TeacherController;
+use App\Http\Controllers\Api\AchievementController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -49,4 +50,9 @@ Route::prefix('v1')->group(function () {
     // 教師列表 API
     Route::get('/teachers', [TeacherController::class, 'index']);
     Route::get('/teachers/{id}', [TeacherController::class, 'show']);
+
+    // 成果展示 API
+    Route::get('/achievement-categories', [AchievementController::class, 'categories']);
+    Route::get('/achievement-categories/{slug}/achievements', [AchievementController::class, 'categoryAchievements']);
+    Route::get('/achievements/{id}', [AchievementController::class, 'show']);
 });
