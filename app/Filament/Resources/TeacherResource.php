@@ -105,7 +105,7 @@ class TeacherResource extends Resource
                             ->columnSpanFull()
                             ->maxHeight(500)
                             ->minHeight(500),
-                            
+
                         Forms\Components\TextInput::make('sort')
                             ->label('排序')
                             ->numeric()
@@ -113,6 +113,7 @@ class TeacherResource extends Resource
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('啟用')
+                            ->columnSpanFull()
                             ->default(true)
                             ->inline(false),
 
