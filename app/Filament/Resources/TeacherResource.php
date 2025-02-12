@@ -9,7 +9,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherResource extends Resource
 {
@@ -66,15 +70,41 @@ class TeacherResource extends Resource
 
                         Forms\Components\FileUpload::make('image')
                             ->label('照片')
+                            ->required()
                             ->image()
+                            ->imageEditor()
                             ->directory('teachers')
-                            ->preserveFilenames()
-                            ->maxSize(5120)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->downloadable()
+                            ->openable()
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => (string) str(Str::uuid7() . '.webp')
+                            )
+                            ->saveUploadedFileUsing(function ($file) {
+                                $manager = new ImageManager(new Driver());
+                                $image = $manager->read($file);
+                                $image->cover(1024, 1024);
+                                $filename = Str::uuid7()->toString() . '.webp';
 
-                        Forms\Components\RichEditor::make('content')
+                                if (!file_exists(storage_path('app/public/teachers'))) {
+                                    mkdir(storage_path('app/public/teachers'), 0755, true);
+                                }
+
+                                $image->toWebp(80)->save(storage_path('app/public/teachers/' . $filename));
+                                return 'teachers/' . $filename;
+                            })
+                            ->deleteUploadedFileUsing(function ($file) {
+                                if ($file) {
+                                    Storage::disk('public')->delete($file);
+                                }
+                            }),
+
+                        TinyEditor::make('content')
                             ->label('介紹內容')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->maxHeight(500)
+                            ->minHeight(500),
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('啟用')
