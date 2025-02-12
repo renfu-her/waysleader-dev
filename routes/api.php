@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\SinglePageController;
+use App\Http\Controllers\Api\TeacherController;
 
 Route::prefix('v1')->group(function () {
     // 相簿
@@ -44,4 +45,8 @@ Route::prefix('v1')->group(function () {
     // 單頁管理 API
     Route::get('/pages', [SinglePageController::class, 'index']);
     Route::get('/pages/{slug}', [SinglePageController::class, 'show']);
+
+    // 教師列表 API
+    Route::get('/teachers', [TeacherController::class, 'index']);
+    Route::get('/teachers/{id}', [TeacherController::class, 'show']);
 });
