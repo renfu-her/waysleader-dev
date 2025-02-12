@@ -58,10 +58,11 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ route('pages.show', 'about') }}">簡介</a>
                                         </li>
+                                        <li><a class="dropdown-item" href="{{ route('teachers.index') }}">團隊師資</a></li>
                                         <li><a class="dropdown-item"
                                                 href="{{ route('pages.show', 'contact') }}">與我聯繫</a></li>
                                         <li><a class="dropdown-item" href="{{ route('faqs.index') }}">Q&A</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('teachers.index') }}">團隊師資</a></li>
+                                        
                                     </ul>
                                 </li>
 
