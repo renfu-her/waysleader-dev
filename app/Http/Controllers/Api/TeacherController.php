@@ -39,7 +39,7 @@ class TeacherController extends Controller
             'title' => $teacher->title,
             'name' => $teacher->name,
             'content' => $teacher->content,
-            'image_url' => $teacher->image ? url($teacher->image) : null,
+            'image_url' => $teacher->image ? asset('storage/' . $teacher->image) : null,
         ];
 
         return response()->json([
