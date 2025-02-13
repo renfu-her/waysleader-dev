@@ -18,7 +18,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Auth\Login;
-use App\Filament\Pages\Home;
 
 class BackendPanelProvider extends PanelProvider
 {
@@ -33,9 +32,6 @@ class BackendPanelProvider extends PanelProvider
             ->brandName('管理後台')
             ->colors([
                 'primary' => Color::Amber,
-            ]) 
-            ->pages([
-                Home::class,
             ])
             ->navigationGroups([
                 '網站管理',
