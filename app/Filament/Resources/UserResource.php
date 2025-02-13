@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Filament\Notifications\Notification;
 
 class UserResource extends Resource
 {
@@ -88,21 +89,27 @@ class UserResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->before(function (DeleteAction $action, Model $record) {
                         if ($record->email === 'admin@admin.com') {
+                            Notification::make()
+                                ->danger()
+                                ->title('系統管理員帳號不能刪除')
+                                ->send();
+
                             $action->cancel();
                             return;
                         }
-                    })
-                    ->failureNotification(
-                        fn(Model $record) =>
-                        $record->email === 'admin@admin.com'
-                            ? '系統管理員帳號不能刪除'
-                            : null
-                    ),
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->before(function ($action, Collection $records) {
+                            if ($records->contains('email', 'admin@admin.com')) {
+                                Notification::make()
+                                    ->danger()
+                                    ->title('系統管理員帳號不能刪除')
+                                    ->send();
+                            }
+
                             $records = $records->reject(function ($record) {
                                 return $record->email === 'admin@admin.com';
                             });
@@ -113,8 +120,7 @@ class UserResource extends Resource
                             }
 
                             $action->records($records);
-                        })
-                        ->failureNotification('系統管理員帳號不能刪除'),
+                        }),
                 ]),
             ]);
     }
