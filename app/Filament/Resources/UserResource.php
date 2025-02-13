@@ -91,7 +91,7 @@ class UserResource extends Resource
                         if ($record->email === 'admin@admin.com') {
                             Notification::make()
                                 ->danger()
-                                ->title('系統管理員帳號不能刪除')
+                                ->title('預設管理帳號不能刪除')
                                 ->send();
 
                             $action->cancel();
