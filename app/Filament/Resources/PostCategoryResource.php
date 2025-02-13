@@ -34,6 +34,11 @@ class PostCategoryResource extends Resource
 
     protected static ?int $navigationSort = 1; // 讓分類顯示在文章之前
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
