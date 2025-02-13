@@ -34,10 +34,10 @@ class BackendPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            // ->homeUrl('/backend/posts')
-            ->pages([
-                Home::class,
-            ])
+            ->homeUrl('/backend/course-categories') 
+            // ->pages([
+            //     Home::class,
+            // ])
             ->navigationGroups([
                 '網站管理',
                 '課程管理',
