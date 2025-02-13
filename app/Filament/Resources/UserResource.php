@@ -87,29 +87,12 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->before(function (DeleteAction $action, Model $record) {
-                        if ($record->email === 'admin@admin.com') {
-                            Notification::make()
-                                ->danger()
-                                ->title('預設管理帳號不能刪除')
-                                ->send();
-
-                            $action->cancel();
-                            return;
-                        }
-                    }),
+                    ->hidden(fn(Model $record): bool => $record->email === 'admin@admin.com'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->before(function ($action, Collection $records) {
-                            if ($records->contains('email', 'admin@admin.com')) {
-                                Notification::make()
-                                    ->danger()
-                                    ->title('系統管理員帳號不能刪除')
-                                    ->send();
-                            }
-
                             $records = $records->reject(function ($record) {
                                 return $record->email === 'admin@admin.com';
                             });
