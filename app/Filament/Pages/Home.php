@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
+use Illuminate\Http\RedirectResponse;
 
 class Home extends Page
 {
@@ -10,8 +11,8 @@ class Home extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public function mount(): void
+    public function mount(): RedirectResponse
     {
-        redirect()->to('/backend/course-categories');
+        return redirect()->route('filament.backend.resources.course-categories.index');
     }
 }
