@@ -10,6 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserResource extends Resource
 {
@@ -82,11 +85,36 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function (DeleteAction $action, Model $record) {
+                        if ($record->email === 'admin@admin.com') {
+                            $action->cancel();
+                            return;
+                        }
+                    })
+                    ->failureNotification(
+                        fn(Model $record) =>
+                        $record->email === 'admin@admin.com'
+                            ? '系統管理員帳號不能刪除'
+                            : null
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->before(function ($action, Collection $records) {
+                            $records = $records->reject(function ($record) {
+                                return $record->email === 'admin@admin.com';
+                            });
+
+                            if ($records->isEmpty()) {
+                                $action->cancel();
+                                return;
+                            }
+
+                            $action->records($records);
+                        })
+                        ->failureNotification('系統管理員帳號不能刪除'),
                 ]),
             ]);
     }
