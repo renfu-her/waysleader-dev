@@ -33,11 +33,10 @@ class BackendPanelProvider extends PanelProvider
             ->brandName('管理後台')
             ->colors([
                 'primary' => Color::Amber,
+            ]) 
+            ->pages([
+                Home::class,
             ])
-            ->homeUrl('/backend/course-categories') 
-            // ->pages([
-            //     Home::class,
-            // ])
             ->navigationGroups([
                 '網站管理',
                 '課程管理',
