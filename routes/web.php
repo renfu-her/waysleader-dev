@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\DatabaseController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/pages/{slug}', [PageController::class, 'show'])->name('pages.show');
@@ -17,3 +18,4 @@ Route::get('/teachers/{id}', [TeacherController::class, 'show'])->name('teachers
 Route::get('/achievements', [AchievementController::class, 'index'])->name('achievements.index');
 Route::get('/achievements/category/{slug}', [AchievementController::class, 'category'])->name('achievements.category');
 Route::get('/achievements/{id}', [AchievementController::class, 'show'])->name('achievements.show');
+Route::get('/database-status', [DatabaseController::class, 'checkConnection']);
