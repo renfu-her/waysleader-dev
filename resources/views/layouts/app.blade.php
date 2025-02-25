@@ -28,7 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery.lazy@1.7.11/jquery.lazy.min.js"></script>
 </head>
 
-<body class="bg-soft-primary">
+<body class="bg-soft-primary test-9999">
     <div class="content-wrapper">
         <header class="position-absolute w-100">
             <nav class="navbar navbar-expand-lg center-nav navbar-light bg-white">
