@@ -134,6 +134,6 @@ return [
     |
     */
 
-    'api_url' => env('API_URL', 'https://waysleader.dev-vue.com'),
+    'api_url' => env('API_URL', 'https://waysleader.com'),
 
 ];
