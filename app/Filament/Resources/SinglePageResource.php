@@ -133,7 +133,7 @@ class SinglePageResource extends Resource
                     ->visibility(fn($record) => $record->image !== null),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('最後更新')
-                    ->dateTime(),
+                    ->dateTime('Y-m-d H:i'),
             ])
             ->defaultSort('sort', 'asc')
             ->filters([
