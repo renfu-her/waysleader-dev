@@ -7,7 +7,6 @@ return [
         'search' => [
             'label' => '搜尋',
             'placeholder' => '搜尋',
-            'indicator' => '篩選結果',
         ],
 
     ],
@@ -34,7 +33,7 @@ return [
 
     'filters' => [
 
-        'heading' => '篩選',
+        'heading' => '篩選條件',
 
         'actions' => [
 
@@ -64,8 +63,6 @@ return [
 
         ],
 
-        'indicator' => '篩選結果',
-
     ],
 
     'selection_indicator' => [
@@ -84,6 +81,10 @@ return [
 
         ],
 
+    ],
+
+    'column_toggle' => [
+        'heading' => '顯示欄位',
     ],
 
 ];
