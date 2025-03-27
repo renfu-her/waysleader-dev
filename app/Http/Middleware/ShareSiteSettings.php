@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
+use App\Models\SinglePage;
 
 class ShareSiteSettings
 {
@@ -30,7 +31,13 @@ class ShareSiteSettings
             $settings = $this->getDefaultSettings();
         }
 
+        // 獲取所有啟用的課程頁面
+        $coursePages = SinglePage::where('is_active', true)
+            ->orderBy('sort', 'asc')
+            ->get(['slug', 'title']);
+
         View::share('siteSettings', $settings);
+        View::share('coursePages', $coursePages);
         
         return $next($request);
     }

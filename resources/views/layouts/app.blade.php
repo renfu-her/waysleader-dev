@@ -81,8 +81,9 @@
                                     <a class="nav-link dropdown-toggle" href="#"
                                         data-bs-toggle="dropdown">課程教學</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('pages.show', 'features') }}">課程特色</a></li>
+                                        @foreach($coursePages as $page)
+                                            <li><a class="dropdown-item" href="{{ route('pages.show', $page->slug) }}">{{ $page->title }}</a></li>
+                                        @endforeach
                                         <li><a class="dropdown-item" href="{{ route('courses.index') }}">課程分級</a></li>
                                     </ul>
                                 </li>
