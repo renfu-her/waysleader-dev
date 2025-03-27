@@ -33,6 +33,7 @@ class ShareSiteSettings
 
         // 獲取所有啟用的課程頁面
         $coursePages = SinglePage::where('is_active', true)
+            ->whereNotIn('slug', ['about', 'contact'])
             ->orderBy('sort', 'asc')
             ->get(['slug', 'title']);
 
