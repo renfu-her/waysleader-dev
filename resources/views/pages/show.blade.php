@@ -11,7 +11,7 @@
 
                             @if ($page['image'])
                                 <figure class="rounded mb-6">
-                                    <img src="{{ $page['image_url'] }}" alt="{{ $page['title'] }}" class="img-fluid lazy">
+                                    <img src="{{ $page['image'] }}" alt="{{ $page['title'] }}" class="img-fluid lazy">
                                 </figure>
                             @endif
 
