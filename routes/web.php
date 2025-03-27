@@ -19,3 +19,4 @@ Route::get('/achievements', [AchievementController::class, 'index'])->name('achi
 Route::get('/achievements/category/{slug}', [AchievementController::class, 'category'])->name('achievements.category');
 Route::get('/achievements/{id}', [AchievementController::class, 'show'])->name('achievements.show');
 Route::get('/database-status', [DatabaseController::class, 'checkConnection']);
+

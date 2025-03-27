@@ -44,9 +44,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/faqs', [FaqController::class, 'index']);
 
     // 單頁管理 API
-    Route::get('/pages', [SinglePageController::class, 'index']);
     Route::get('/pages/{slug}', [SinglePageController::class, 'show']);
-
+    Route::get('/pages', [SinglePageController::class, 'index']);
     // 教師列表 API
     Route::get('/teachers', [TeacherController::class, 'index']);
     Route::get('/teachers/{id}', [TeacherController::class, 'show']);

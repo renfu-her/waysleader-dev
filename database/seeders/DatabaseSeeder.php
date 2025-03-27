@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             // ... 其他 seeders
             SinglePagesSeeder::class,
             AchievementCategorySeeder::class,
+            MenuSeeder::class,
         ]);
     }
 }
