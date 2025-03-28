@@ -61,7 +61,11 @@ class NewsResource extends Resource
                     ->saveUploadedFileUsing(function ($file) {
                         $manager = new ImageManager(new Driver());
                         $image = $manager->read($file);
-                        $image->cover(1024, 1024);
+                        // $image->cover(1024, 1024);
+
+                        $image->resize(1024, null);
+                        $image->scaleDown(1024, null);
+
                         $filename = Str::uuid7()->toString() . '.webp';
 
                         if (!file_exists(storage_path('app/public/news'))) {
