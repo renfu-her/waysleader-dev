@@ -40,6 +40,11 @@ class MenuSeeder extends Seeder
                 'sort_order' => 6,
                 'is_active' => true,
             ],
+            [
+                'name' => 'Q&A',
+                'sort_order' => 7,
+                'is_active' => true,
+            ],
         ];
 
         foreach ($menus as $menu) {

@@ -67,13 +67,18 @@
                                     <a class="nav-link dropdown-toggle" href="#"
                                         data-bs-toggle="dropdown">關於科普</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('pages.show', 'about') }}">簡介</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="{{ route('teachers.index') }}">團隊師資</a></li>
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('pages.show', 'contact') }}">與我聯繫</a></li>
+                                        @if(\App\Models\Menu::where('name', '簡介')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('pages.show', 'about') }}">簡介</a></li>
+                                        @endif
+                                        @if(\App\Models\Menu::where('name', '團隊師資')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('teachers.index') }}">團隊師資</a></li>
+                                        @endif
+                                        @if(\App\Models\Menu::where('name', '與我聯繫')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('pages.show', 'contact') }}">與我聯繫</a></li>
+                                        @endif
+                                        @if(\App\Models\Menu::where('name', 'Q&A')->where('is_active', true)->exists())
                                         <li><a class="dropdown-item" href="{{ route('faqs.index') }}">Q&A</a></li>
-
+                                        @endif
                                     </ul>
                                 </li>
 
@@ -84,7 +89,9 @@
                                         @foreach($coursePages as $page)
                                             <li><a class="dropdown-item" href="{{ route('pages.show', $page->slug) }}">{{ $page->title }}</a></li>
                                         @endforeach
-                                        <li><a class="dropdown-item" href="{{ route('courses.index') }}">課程分級</a></li>
+                                        @if(\App\Models\Menu::where('name', '課程分級')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('courses.index') }}">課程分級</a></li>
+                                        @endif
                                     </ul>
                                 </li>
 
@@ -92,14 +99,12 @@
                                     <a class="nav-link dropdown-toggle" href="#"
                                         data-bs-toggle="dropdown">成果展示</a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="{{ route('achievements.category', 'creative') }}">創意展示</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="{{ route('achievements.category', 'sharing') }}">成果分享</a>
-                                        </li>
+                                        @if(\App\Models\Menu::where('name', '創意展示')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('achievements.category', 'creative') }}">創意展示</a></li>
+                                        @endif
+                                        @if(\App\Models\Menu::where('name', '成果分享')->where('is_active', true)->exists())
+                                            <li><a class="dropdown-item" href="{{ route('achievements.category', 'sharing') }}">成果分享</a></li>
+                                        @endif
                                     </ul>
                                 </li>
                             </ul>
