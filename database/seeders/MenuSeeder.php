@@ -47,6 +47,10 @@ class MenuSeeder extends Seeder
             ],
         ];
 
+        // 刪除所有現有的選單
+        Menu::truncate();
+
+        // 重新插入選單 
         foreach ($menus as $menu) {
             Menu::create($menu);
         }
