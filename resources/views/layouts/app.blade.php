@@ -117,6 +117,64 @@
         <main>
             @yield('content')
         </main>
+
+        <footer class="bg-dark text-inverse">
+            <div class="container py-13 py-md-15">
+                <div class="row gy-6 gy-lg-0">
+                    <div class="col-lg-4">
+                        <div class="widget">
+                            <h3 class="h2 mb-3 text-white">{{ $siteSettings->site_name }}</h3>
+                            <p class="mb-5">{{ $siteSettings->site_description }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="widget">
+                            <h4 class="widget-title text-white mb-3">快速連結</h4>
+                            <ul class="list-unstyled text-reset mb-0">
+                                @if(\App\Models\Menu::where('name', '簡介')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('pages.show', 'about') }}">簡介</a></li>
+                                @endif
+                                @if(\App\Models\Menu::where('name', '團隊師資')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('teachers.index') }}">團隊師資</a></li>
+                                @endif
+                                @if(\App\Models\Menu::where('name', '與我聯繫')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('pages.show', 'contact') }}">與我聯繫</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="widget">
+                            <h4 class="widget-title text-white mb-3">課程資訊</h4>
+                            <ul class="list-unstyled text-reset mb-0">
+                                @if(\App\Models\Menu::where('name', '課程分級')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('courses.index') }}">課程分級</a></li>
+                                @endif
+                                @if(\App\Models\Menu::where('name', '創意展示')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('achievements.category', 'creative') }}">創意展示</a></li>
+                                @endif
+                                @if(\App\Models\Menu::where('name', '成果分享')->where('is_active', true)->exists())
+                                    <li><a href="{{ route('achievements.category', 'sharing') }}">成果分享</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="widget">
+                            <h4 class="widget-title text-white mb-3">聯絡資訊</h4>
+                            <address class="pe-xl-5 pe-xxl-8">
+                                <p class="mb-2">{{ $siteSettings->address }}</p>
+                                <p class="mb-2">電話：{{ $siteSettings->phone }}</p>
+                                <p class="mb-2">Email：{{ $siteSettings->email }}</p>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>
