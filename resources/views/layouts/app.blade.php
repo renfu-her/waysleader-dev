@@ -133,8 +133,8 @@
                 <div class="row gy-6 gy-lg-0">
                     <div class="col-lg-4">
                         <div class="widget">
-                            <h3 class="h2 mb-3 text-white">{{ $siteSettings->site_name }}</h3>
-                            <p class="mb-5">{{ $siteSettings->site_description }}</p>
+                            <h3 class="h2 mb-3 text-white">{{ $siteSettings->seo_name }}</h3>
+                            <p class="mb-5">{{ $siteSettings->seo_description }}</p>
                         </div>
                     </div>
 
