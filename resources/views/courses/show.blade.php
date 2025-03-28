@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="wrapper bg-soft-primary">
+    <section class="wrapper">
         <div class="container pt-16 pt-md-18 pb-16 pb-md-18">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="card">
-                        <div class="card-body p-lg-8">
+                        <div class="card-body p-lg-8 bg-light-blue rounded-3">
                             <div class="row">
                                 <div class="col-lg-12">
                                     @if ($course['category'])
@@ -58,6 +58,9 @@
 
 @section('styles')
     <style>
+        .bg-light-blue {
+            background-color: #cce6ff;
+        }
         .category-badge {
             display: inline-flex;
             align-items: center;
