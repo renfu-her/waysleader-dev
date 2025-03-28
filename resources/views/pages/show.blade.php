@@ -28,10 +28,10 @@
     </section>
 @endsection
 
-@push('styles')
+@section('styles')
     <style>
         .bg-light-blue {
             background-color: #cce6ff;
         }
     </style>
-@endpush
+@endsection
