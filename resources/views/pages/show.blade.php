@@ -31,7 +31,7 @@
 @push('styles')
     <style>
         .bg-light-blue {
-            background-color: #e8f4ff;
+            background-color: #cce6ff;
         }
     </style>
 @endpush
