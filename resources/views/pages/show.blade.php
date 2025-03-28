@@ -33,5 +33,9 @@
         .bg-light-blue {
             background-color: #cce6ff;
         }
+        .post-content img {
+            width: 100% !important;
+            height: auto !important;
+        }
     </style>
 @endsection
