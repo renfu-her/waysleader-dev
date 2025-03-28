@@ -3,10 +3,10 @@
 @section('content')
     <section class="wrapper">
         <div class="container pt-16 pt-md-18 pb-16 pb-md-18">
-            <div class="row bg-light-blue rounded-3">
+            <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="card shadow-sm">
-                        <div class="card-body p-lg-8">
+                        <div class="card-body p-lg-8 bg-light-blue rounded-3">
                             <h1 class="display-1 mb-3">{{ $page['title'] }}</h1>
 
                             @if ($page['image'])
