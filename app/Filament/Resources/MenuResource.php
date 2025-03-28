@@ -38,10 +38,12 @@ class MenuResource extends Resource
                 Forms\Components\TextInput::make('sort_order')
                     ->label('排序')
                     ->numeric()
-                    ->default(0),
+                    ->default(0)
+                    ->required(),
                 Forms\Components\Toggle::make('is_active')
                     ->label('啟用')
-                    ->default(true),
+                    ->default(true)
+                    ->required(),
             ]);
     }
 
@@ -55,9 +57,9 @@ class MenuResource extends Resource
                 Tables\Columns\TextColumn::make('sort_order')
                     ->label('排序')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
+                Tables\Columns\ToggleColumn::make('is_active')
                     ->label('啟用')
-                    ->boolean(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('建立時間')
                     ->dateTime()
@@ -67,15 +69,6 @@ class MenuResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('啟用狀態'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ])
             ->defaultSort('sort_order', 'asc');
     }
@@ -91,8 +84,6 @@ class MenuResource extends Resource
     {
         return [
             'index' => Pages\ListMenus::route('/'),
-            'create' => Pages\CreateMenu::route('/create'),
-            'edit' => Pages\EditMenu::route('/{record}/edit'),
         ];
     }
 }
