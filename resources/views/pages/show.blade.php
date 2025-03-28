@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="wrapper bg-soft-primary">
+    <section class="wrapper bg-light-blue">
         <div class="container pt-16 pt-md-18 pb-16 pb-md-18">
             <div class="row">
                 <div class="col-lg-10 mx-auto">
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-body p-lg-8">
                             <h1 class="display-1 mb-3">{{ $page['title'] }}</h1>
 
@@ -27,3 +27,11 @@
         </div>
     </section>
 @endsection
+
+@push('styles')
+    <style>
+        .bg-light-blue {
+            background-color: #e8f4ff;
+        }
+    </style>
+@endpush
