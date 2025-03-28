@@ -19,11 +19,11 @@ class MenuResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bars-3';
     
-    protected static ?string $navigationLabel = '選單管理';
+    protected static ?string $navigationLabel = '網站管理';
     
-    protected static ?string $modelLabel = '選單';
+    protected static ?string $modelLabel = '選單設定';
     
-    protected static ?string $pluralModelLabel = '選單';
+    protected static ?string $pluralModelLabel = '選單設定';
 
     public static function form(Form $form): Form
     {
