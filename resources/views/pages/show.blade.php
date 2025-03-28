@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="wrapper bg-light-blue">
+    <section class="wrapper">
         <div class="container pt-16 pt-md-18 pb-16 pb-md-18">
-            <div class="row">
+            <div class="row bg-light-blue rounded-3">
                 <div class="col-lg-10 mx-auto">
                     <div class="card shadow-sm">
                         <div class="card-body p-lg-8">
