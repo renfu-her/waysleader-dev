@@ -19,7 +19,9 @@ class MenuResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bars-3';
     
-    protected static ?string $navigationLabel = '網站管理';
+    protected static ?string $navigationGroup = '網站管理';
+    
+    protected static ?string $navigationLabel = '選單設定';
     
     protected static ?string $modelLabel = '選單設定';
     
